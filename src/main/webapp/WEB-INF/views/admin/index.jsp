@@ -6,33 +6,33 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewort" content="width=device-width,initial-scale=1">
-	<title>${cat} List</title>
+	<title>Index</title>
 	
 	<!-- Favicon icon -->
 	<!-- <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png"> -->
 	
 	<!-- Theme Style -->
-	<c:import url="/WEB-INF/views/common/head.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/head.jsp"/>
 </head>
 
 <body>
 	<!-- Preloader -->
-	<c:import url="/WEB-INF/views/common/preloader.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/preloader.jsp"/>
 	
 	<!-- Header -->
-	<c:import url="/WEB-INF/views/common/header.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/header.jsp"/>
 	
 	<!-- Sidebar -->
-	<c:import url="/WEB-INF/views/common/sidebar.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/sidebar.jsp"/>
 
 	<!-- Wrapper Start -->
-	<c:import url="/WEB-INF/views/common/wrapper_start.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/wrapper_start.jsp"/>
 
 	<!-- Contents Start -->
 	
 	<!-- Contents End -->
 	
-	<c:import url="/WEB-INF/views/common/wrapper_end.jsp"/>
+	<c:import url="/WEB-INF/views/admin/common/wrapper_end.jsp"/>
 	<!-- Wrapper End -->
 </body>
 </html>
