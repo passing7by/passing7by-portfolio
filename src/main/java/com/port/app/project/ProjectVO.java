@@ -29,6 +29,8 @@ public class ProjectVO {
 	private String pptUrl;
 	private LocalDateTime regDate;
 	private LocalDateTime modDate;
+	private Boolean isPublished;
+	private Boolean isDeleted;
 	
 	private List<ProjectNoteVO> projectNoteVOs;
 	private List<SectionVO> sectionVOs;
