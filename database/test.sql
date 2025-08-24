@@ -34,7 +34,66 @@ DELETE FROM project
 WHERE
 	id = 6
     AND admin_id = 1;
-    
--- list에 필요한 것: project - id, admin_id, title, reg_date, mod_date, (작성 중/완료)
+/*    
+list에 필요한 것: 
+where - project(admin_id)
+row_number
+등록 역순 정렬
+project - id(hidden), title, start_date, end_date, reg_date, mode_date
+*/
+SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) row_num
+	, id, title, start_date, end_date, reg_date, mod_date
+FROM project
+WHERE admin_id = 1;
 
 -- detail에 필요한 것: 모두
+SELECT *
+FROM project p
+LEFT JOIN section s
+	ON (p.id = s.project_id)
+LEFT JOIN image i
+	ON (p.id = i.project_id)
+LEFT JOIN project_note pn
+	ON (p.id = pn.project_id)
+WHERE
+	p.admin_id = 1
+    AND p.id = 1;
+
+SELECT *
+FROM (SELECT * FROM project WHERE admin_id = 1 AND id = 1) p
+LEFT JOIN section s ON (p.id = s.project_id)
+LEFT JOIN image i ON (p.id = i.project_id)
+LEFT JOIN project_note pn ON (p.id = pn.project_id);
+    
+SELECT *
+FROM section
+WHERE project_id = 1;
+
+SELECT *
+FROM image
+WHERE project_id = 1;
+
+SELECT *
+FROM project_note
+WHERE project_id = 1;
+
+INSERT project_note (project_id, title, url)
+VALUES (1, 'test title', 'test url');
+
+INSERT section (project_id, about_id, title, content)
+VALUES (1, null, 'test title', 'test content');
+
+INSERT image (project_id, about_id, ori_name, saved_name, extension)
+VALUES (1, null, 'test ori', 'test saved', 'test extension');
+
+ALTER TABLE admin
+CHANGE COLUMN active is_active TINYINT;
+
+ALTER TABLE admin
+MODIFY COLUMN is_active TINYINT NOT NULL DEFAULT 0;
+
+ALTER TABLE project
+ADD COLUMN is_published TINYINT NOT NULL DEFAULT 0;
+
+ALTER TABLE about
+ADD COLUMN is_published TINYINT NOT NULL DEFAULT 0;
