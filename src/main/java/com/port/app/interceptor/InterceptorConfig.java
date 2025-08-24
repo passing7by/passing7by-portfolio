@@ -1,6 +1,7 @@
 package com.port.app.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -10,9 +11,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	@Autowired
 	private LoggingInterceptor loggingInterceptor;
 	
+	@Value("${url.admin}")
+	private String adminUrl;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loggingInterceptor)
-				.addPathPatterns("/**");
+				.addPathPatterns("/" + adminUrl, "/" + adminUrl + "/project/**", "/" + adminUrl + "/adbout/**", "/" + adminUrl + "/member/**");
 	}
 }
