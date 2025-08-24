@@ -14,8 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 @RequestMapping("/${url.admin}/project/*")
 public class ProjectAdminController {
@@ -93,7 +91,5 @@ public class ProjectAdminController {
 		
 		return "redirect:./list";
 	}
-	
-	
 	
 }
