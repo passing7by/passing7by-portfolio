@@ -1,5 +1,7 @@
 package com.port.app.project;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,16 +38,21 @@ public class ProjectAdminController {
 		return adminUrl;
 	}
 	
-	@GetMapping("list")
-	public String list(Model model) throws Exception {
-		model.addAttribute("list", projectService.list());
+	@GetMapping("list") // TODO 매개변수로 ProjectVO 제거 & sesssion의 id, username, pass를 확인하는 interceptor를 만든 다음 session의 id를 ProjectVO에 넣어서 service에 전달
+	public String list(ProjectVO projectVO, Model model) throws Exception {
+		List<ProjectVO> list = projectService.listForAdmin(projectVO);
+		
+		model.addAttribute("list", list);
 		
 		return "admin/project/list";
 	}
 	
-	@GetMapping("detail")
+	@GetMapping("detail") // TODO session의 adminId 사용
 	public String detail(ProjectVO projectVO, Model model) throws Exception {
-		model.addAttribute("vo", projectService.detail(projectVO));
+		ProjectVO result = projectService.detail(projectVO);
+		result.setAdminId(null);
+		
+		model.addAttribute("vo", result);
 		
 		return "admin/project/detail";
 	}
@@ -58,29 +65,29 @@ public class ProjectAdminController {
 		return "admin/project/add";
 	}
 	
-	@PostMapping("add")
+	@PostMapping("add") // TODO session의 adminId 사용
 	public String add(ProjectVO projectVO) throws Exception {
 		int result = projectService.add(projectVO);
 		
 		return "redirect:./list"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}
 	
-	@GetMapping("update")
-	public String update(Model model, HttpServletRequest req) throws Exception {
+	@GetMapping("update") // TODO session의 adminId 사용
+	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
 		String uri = req.getRequestURI().toString();
 		model.addAttribute("uri", uri);
 		
 		return "admin/project/add";
 	}
 	
-	@PostMapping("update")
+	@PostMapping("update") // TODO session의 adminId 사용
 	public String update(ProjectVO projectVO) throws Exception {
 		int result = projectService.update(projectVO);
 		
 		return "redirect:./list"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
 	}
 	
-	@PostMapping("delete")
+	@PostMapping("delete") // TODO session의 adminId 사용
 	public String delete(ProjectVO projectVO) throws Exception {
 		int result = projectService.delete(projectVO);
 		

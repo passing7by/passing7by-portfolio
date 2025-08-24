@@ -21,6 +21,8 @@
 		<result column="ppt_url" property="pptUrl"/>
 		<result column="reg_date" property="regDate"/>
 		<result column="mod_date" property="modDate"/>
+		<result column="is_published" property="isPublished"/>
+		<result column="is_deleted" property="isDeleted"/>
 		
 		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
 			<id column="id" property="id"/>
@@ -45,27 +47,51 @@
 		</collection>
 	</resultMap>
 	
-	<select id="selectList" resultMap="detailResult">
-		SELECT * 
+	
+	<select id="selectListForAdmin" parameterType="ProjectVO" resultType="ProjectVO">
+		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) row_num
+			, id, title, start_date, end_date, reg_date, mod_date, is_published
 		FROM project
+		WHERE
+			admin_id = #{adminId}
+			AND is_deleted = #{isDeleted}
 	</select>
 	
-	<select id="selectDetail" parameterType="ProjectVO" resultMap="detailResult">
+	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
 		SELECT *
-		FROM project
-		WHERE id = #{id}
+		FROM (SELECT * FROM project WHERE admin_id = #{adminId} AND id = #{id}) p
+		LEFT JOIN section s ON (p.id = s.project_id)
+		LEFT JOIN image i ON (p.id = i.project_id)
+		LEFT JOIN project_note pn ON (p.id = pn.project_id)
 	</select>
 	
-	<insert id="insert" parameterType="ProjectVO">
+	
+	<insert id="insertProject" parameterType="ProjectVO">
 		INSERT INTO project
 			(admin_id, title, summary, team_size, key_features, tech_stack
-			,start_date, end_date, github_url, demo_url, ppt_url) 
+			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 
 		VALUES
 			(#{adminId}, #{title}, #{summary}, #{teamSize}, #{keyFeatures}, #{techStack}
-			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl});
+			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl}, #{is_published});
 	</insert>
 	
-	<update id="update" parameterType="ProjectVO">
+	<insert id="insertProjectNote" parameterType="ProjectNoteVO">
+		INSERT project_note (project_id, title, url)
+		VALUES (#{projectId}, #{title}, #{url})
+	</insert>
+	
+	<insert id="insertSection" parameterType="SectionVO">
+		INSERT section (project_id, about_id, title, content)
+		VALUES (#{projectId}, #{aboutId}, #{title}, #{content})
+	</insert>
+	
+	<insert id="insertFile" parameterType="FileVO">
+		INSERT image (project_id, about_id, ori_name, saved_name, extension)
+		VALUES (#{projectId}, #{aboutId}, #{oriName}, #{savedName}, #{extension})
+	</insert>
+	
+	
+	<update id="updateProject" parameterType="ProjectVO">
 		UPDATE project
 		SET
 			title = #{title}
@@ -78,15 +104,38 @@
 			,github_url = #{githubUrl}
 			,demo_url = #{demoUrl}
 			,ppt_url = #{pptUrl}
+			,is_published = #{isPublished}
 		WHERE
 			id = #{id}
 			AND admin_id = #{adminId}
 	</update>
 	
-	<delete id="delete" parameterType="ProjectVO">
-		DELETE FROM project
+	<update id="updateProjectNote" parameterType="ProjectNoteVO">
+		UPDATE project_note
+		SET title = #{title}, url = #{url}
+		WHERE project_id = #{projectId}
+	</update>
+	
+	<update id="updateSection" parameterType="SectionVO">
+		UPDATE section
+		SET title = #{title}, content = #{content}
+		WHERE project_id = #{projectId} AND about_id = #{aboutId}
+	</update>
+	
+	<update id="updateFile" parameterType="FileVO">
+		UPDATE image
+		SET ori_name = #{oriName}, saved_name = #{savedName}, extension = #{extension}
+		WHERE project_id = #{projectId} AND about_id = #{aboutId}
+	</update>
+	
+	
+	<update id="delete" parameterType="ProjectVO">
+		UPDATE project
+		SET
+			is_published = 0
+			,is_deleted = 1
 		WHERE
 			id = #{id}
 			AND admin_id = #{adminId};
-	</delete>
+	</update>
 </mapper>
