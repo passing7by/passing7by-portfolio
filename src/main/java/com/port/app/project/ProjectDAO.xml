@@ -24,6 +24,8 @@
 		<result column="is_published" property="isPublished"/>
 		<result column="is_deleted" property="isDeleted"/>
 		
+		<result column="row_number" property="rowNumber"/>
+		
 		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
 			<id column="id" property="id"/>
 			
@@ -49,7 +51,7 @@
 	
 	
 	<select id="selectListForAdmin" parameterType="ProjectVO" resultType="ProjectVO">
-		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) row_num
+		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) `row_number`
 			, id, title, start_date, end_date, reg_date, mod_date, is_published
 		FROM project
 		WHERE
