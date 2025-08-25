@@ -13,13 +13,13 @@
 show variables like 'lower%';
 
 -- 1. db 생성
-CREATE DATABASE passing7by_porfolio;
+CREATE DATABASE passing7by_port;
 SHOW DATABASES;
 -- 2. 유저 생성
-CREATE USER 'portfolio_admin'@'localhost' IDENTIFIED BY 'portfolio_admin';
+CREATE USER 'port_admin'@'localhost' IDENTIFIED BY 'port_admin';
 SELECT user FROM mysql.user;
 -- 3. 유저에게 권한 부여
-GRANT ALL PRIVILEGES ON passing7by_porfolio.* TO 'portfolio_admin'@'localhost';
-SHOW GRANTS FOR 'portfolio_admin'@'localhost';
+GRANT ALL PRIVILEGES ON passing7by_port.* TO 'port_admin'@'localhost';
+SHOW GRANTS FOR 'port_admin'@'localhost';
 -- 권한 저장
 FLUSH PRIVILEGES;
