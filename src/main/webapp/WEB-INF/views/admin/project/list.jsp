@@ -41,8 +41,8 @@
 						<tr>
 							<th>#</th>
 							<th class="col-md-4">제목</th>
-							<th>시작날짜</th>
-							<th>종료날짜</th>
+							<th>시작일</th>
+							<th>종료일</th>
 							<th>등록</th>
 							<th>수정</th>
 							<th>공개여부</th>
