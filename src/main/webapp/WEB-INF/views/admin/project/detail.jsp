@@ -30,159 +30,151 @@
 	<c:import url="/WEB-INF/views/admin/common/wrapper_start.jsp"/>
 
 	<!-- Contents Start -->
-	${vo }
-	
-	<form action="/${adminUrl }/project/delete" method="post">
-		<input type="text" name="id" value="6">
-		<input type="text" name="adminId" value="1">
-		<button>delete</button>
-	</form>
-	
-	<!-- TODO 아래 양식 마저 구현 -->
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="form-validation">
-					<form action="#" method="post" class="form-valide">
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-username">Username
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-username"
-									name="val-username" placeholder="Enter a username..">
-							</div>
+				<div class="read-content">
+
+					<div class="media mb-4 mt-1">
+						<div class="media-body">
+							<span class="text-muted">등록됨 · ${vo.formatedRegDate }</span>
+							<br>
+							<c:if test="${vo.formatedModDate ne null }">
+								<span class="text-warning">수정됨 · ${vo.formatedModDate }</span>
+							</c:if>
+							<br><br>
+							
+							<h3 class="m-0 text-primary">
+								<span class="mb-1 badge ${vo.isPublished eq true ? 'badge-primary' : 'badge-success' } px-2">
+									${vo.isPublished eq true ? '공개' : '비공개' }
+								</span>&nbsp;
+								${vo.title }
+							</h3>
+							<p class="text-muted">${vo.summary ne null ? vo.summary : '-' }</p>
 						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-email">Email
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-email"
-									name="val-email" placeholder="Your valid email..">
-							</div>
+					</div>
+					
+					<div class="media media-reply">
+						<div class="media-body">
+						
+							<h5 class="m-b-5 p-t-15">주요 기능 소개</h5>
+							<p>${vo.keyFeatures ne null ? vo.keyFeatures : '-' }</p>
+							<hr>
+							
+							<h5 class="m-b-5 p-t-15">팀 규모</h5>
+							<p>${vo.teamSize ne null ? vo.teamSize : '-' }인</p>
+						
+							<h5 class="m-b-5 p-t-15">사용 기술</h5>
+							<p>${vo.techStack ne null ? vo.techStack : '-' }</p>
+						
+							<h5 class="m-b-5 p-t-15">시작일</h5>
+							<p>${vo.startDate ne null ? vo.startDate : '-' }</p>
+						
+							<h5 class="m-b-5 p-t-15">종료일</h5>
+							<p>${vo.endDate ne null ? vo.endDate : '-' }</p>
+							<hr>
+							
+							<h5 class="m-b-5 p-t-15">깃허브 링크</h5>
+							<c:choose>
+								<c:when test="${vo.githubUrl ne null }">
+									<p><a style="text-decoration: underline;" href="${vo.githubUrl }">${vo.githubUrl }</a></p>				
+								</c:when>
+								<c:otherwise>
+									<p>-</p>
+								</c:otherwise>
+							</c:choose>
+							
+							<h5 class="m-b-5 p-t-15">배포 링크</h5>
+								<c:choose>
+									<c:when test="${vo.demoUrl ne null }">
+										<p><a style="text-decoration: underline;" href="${vo.demoUrl }">${vo.demoUrl }</a></p>
+									</c:when>
+									<c:otherwise>
+										<p>-</p>
+									</c:otherwise>
+								</c:choose>
+							
+							<h5 class="m-b-5 p-t-15">PPT 링크</h5>
+								<c:choose>
+									<c:when test="${vo.pptUrl ne null }">
+										<p><a style="text-decoration: underline;" href="${vo.pptUrl }">${vo.pptUrl }</a></p>
+									</c:when>
+									<c:otherwise>
+										<p>-</p>
+									</c:otherwise>
+								</c:choose>
+							
 						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-password">Password
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="password" class="form-control" id="val-password"
-									name="val-password" placeholder="Choose a safe one..">
-							</div>
+					</div>
+				
+					<div class="media media-reply">
+						<div class="media-body">
+						
+							<h5 class="m-b-5 p-t-15">프로젝트 기록물</h5>
+							<c:choose>
+								<c:when test="${not empty vo.projectNoteVOs }">
+									<c:forEach items="${vo.projectNoteVOs }" var="pn">
+										<b class="m-b-5 p-t-15 text-warning">${pn.title }</b> <!--  -->
+										<p><a style="text-decoration: underline;" href="${pn.url }">${pn.url }</a></p>
+									</c:forEach>						
+								</c:when>
+								<c:otherwise>
+									<p>-</p>
+								</c:otherwise>
+							</c:choose>
+					
 						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-confirm-password">Confirm
-								Password <span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="password" class="form-control"
-									id="val-confirm-password" name="val-confirm-password"
-									placeholder="..and confirm it!">
-							</div>
+					</div>
+					
+					<div class="media media-reply">
+						<div class="media-body">
+						
+							<h5 class="m-b-5 p-t-15">추가 항목</h5>
+							<c:choose>
+								<c:when test="${not empty vo.sectionVOs }">
+									<c:forEach items="${vo.sectionVOs }" var="s">
+											<b class="m-b-5 p-t-15 text-warning">${s.title }</b>
+											<p>${s.content }</p>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<p>-</p>
+								</c:otherwise>
+							</c:choose>
+							
 						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-suggestions">Suggestions
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<textarea class="form-control" id="val-suggestions"
-									name="val-suggestions" rows="5"
-									placeholder="What would you like to see?"></textarea>
-							</div>
+					</div>
+					
+					<div class="media media-reply">
+						<div class="media-body">
+						
+							<h5 class="m-b-5 p-t-15">첨부 이미지</h5>
+							<c:choose>
+								<c:when test="${not empty vo.fileVOs }">
+									<c:forEach items="${vo.fileVOs }" var="f">
+											<img alt="프로젝트 이미지" src="${f.savedName }.${f.extension }"> <!-- TODO 파일을 다루는 기능을 구현한 뒤 src 변경 -->
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<p>-</p>
+								</c:otherwise>
+							</c:choose>
+						
 						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-skill">Best
-								Skill <span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<select class="form-control" id="val-skill" name="val-skill">
-									<option value="">Please select</option>
-									<option value="html">HTML</option>
-									<option value="css">CSS</option>
-									<option value="javascript">JavaScript</option>
-									<option value="angular">Angular</option>
-									<option value="angular">React</option>
-									<option value="vuejs">Vue.js</option>
-									<option value="ruby">Ruby</option>
-									<option value="php">PHP</option>
-									<option value="asp">ASP.NET</option>
-									<option value="python">Python</option>
-									<option value="mysql">MySQL</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-currency">Currency
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-currency"
-									name="val-currency" placeholder="$21.60">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-website">Website
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-website"
-									name="val-website" placeholder="http://example.com">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-phoneus">Phone
-								(US) <span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-phoneus"
-									name="val-phoneus" placeholder="212-999-0000">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-digits">Digits
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-digits"
-									name="val-digits" placeholder="5">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-number">Number
-								<span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-number"
-									name="val-number" placeholder="5.0">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label" for="val-range">Range
-								[1, 5] <span class="text-danger">*</span>
-							</label>
-							<div class="col-lg-6">
-								<input type="text" class="form-control" id="val-range"
-									name="val-range" placeholder="4">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label"><a href="#">Terms
-									&amp; Conditions</a> <span class="text-danger">*</span> </label>
-							<div class="col-lg-8">
-								<label class="css-control css-control-primary css-checkbox"
-									for="val-terms"> <input type="checkbox"
-									class="css-control-input" id="val-terms" name="val-terms"
-									value="1"> <span class="css-control-indicator"></span> I
-									agree to the terms
-								</label>
-							</div>
-						</div>
-						<div class="form-group row">
-							<div class="col-lg-8 ml-auto">
-								<button type="submit" class="btn btn-primary">Submit</button>
-							</div>
-						</div>
+					</div>
+					
+				</div>
+				<br>
+				
+				<!-- TODO 시간이 된다면 form에 다 때려넣는 방식 대신 js 사용 방식으로 수정 -->
+				<div class="row m-0 justify-content-end">
+					<form action="/${adminUrl }/project/update" method="get" class="mr-2">
+						<input type="hidden" value="${vo.id }">
+						<button class="btn btn-success m-b-30">수정</button>
+					</form>
+					<form action="/${adminUrl }/project/delete" method="post">
+						<input type="hidden" value="${vo.id }">
+						<button class="btn btn-danger m-b-30">삭제</button>
 					</form>
 				</div>
 			</div>
