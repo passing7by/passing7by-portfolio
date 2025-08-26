@@ -49,19 +49,20 @@
 		</collection>
 	</resultMap>
 	
+	<!-- INFO 개발 편의를 위해 임시로 where절과 values절의 admin_id값은 모두 1로 설정해 놓음 -->
 	
 	<select id="selectListForAdmin" parameterType="ProjectVO" resultType="ProjectVO">
 		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) `row_number`
 			, id, title, start_date, end_date, reg_date, mod_date, is_published
 		FROM project
 		WHERE
-			admin_id = #{adminId}
+			admin_id = 1
 			AND is_deleted = #{isDeleted}
 	</select>
 	
 	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
 		SELECT *
-		FROM (SELECT * FROM project WHERE admin_id = #{adminId} AND id = #{id}) p
+		FROM (SELECT * FROM project WHERE admin_id = 1 AND id = #{id}) p
 		LEFT JOIN section s ON (p.id = s.project_id)
 		LEFT JOIN image i ON (p.id = i.project_id)
 		LEFT JOIN project_note pn ON (p.id = pn.project_id)
@@ -73,8 +74,8 @@
 			(admin_id, title, summary, team_size, key_features, tech_stack
 			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 
 		VALUES
-			(#{adminId}, #{title}, #{summary}, #{teamSize}, #{keyFeatures}, #{techStack}
-			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl}, #{is_published});
+			(1, #{title}, #{summary}, #{teamSize}, #{keyFeatures}, #{techStack}
+			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl}, #{isPublished});
 	</insert>
 	
 	<insert id="insertProjectNote" parameterType="ProjectNoteVO">
@@ -109,7 +110,7 @@
 			,is_published = #{isPublished}
 		WHERE
 			id = #{id}
-			AND admin_id = #{adminId}
+			AND admin_id = 1
 	</update>
 	
 	<update id="updateProjectNote" parameterType="ProjectNoteVO">
@@ -138,6 +139,6 @@
 			,is_deleted = 1
 		WHERE
 			id = #{id}
-			AND admin_id = #{adminId};
+			AND admin_id = 1;
 	</update>
 </mapper>

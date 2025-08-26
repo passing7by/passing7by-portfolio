@@ -64,9 +64,11 @@ public class ProjectAdminController {
 	
 	@PostMapping("add") // TODO session의 adminId 사용
 	public String add(ProjectVO projectVO) throws Exception {
+		System.err.println(projectVO);
+		
 		int result = projectService.add(projectVO);
 		
-		return "redirect:./list"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
+		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}
 	
 	@GetMapping("update") // TODO session의 adminId 사용
