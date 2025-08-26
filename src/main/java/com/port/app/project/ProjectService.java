@@ -40,12 +40,7 @@ public class ProjectService {
 			}
 		}
 		
-		List<FileVO> fList = projectVO.getFileVOs();
-		if (!fList.isEmpty() && result > 0) {
-			for (FileVO f : fList) {
-				result = projectDAO.insertFile(f);
-			}
-		}
+		// TODO 파일 정보는 멀티파트에서 가져와야 함
 		
 		return result;
 	}
