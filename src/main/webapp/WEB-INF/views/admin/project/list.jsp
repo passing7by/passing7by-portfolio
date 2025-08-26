@@ -39,7 +39,7 @@
 				<h4 style="text-transform: capitalize;">${cat} List</h4>
 				
 				<div class="row m-0">
-					<button class="btn btn-primary m-b-30 mr-2">등록</button>
+					<a class="btn btn-primary m-b-30 mr-2" href="/${adminUrl }/project/add">등록</a>
 					<button class="btn btn-success m-b-30 mr-2">수정</button>
 					<button class="btn btn-danger m-b-30">삭제</button>
 				</div>

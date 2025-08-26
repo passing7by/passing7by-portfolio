@@ -29,6 +29,7 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (!pnList.isEmpty() && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				pn.setProjectId(projectVO.getId());
 				result = projectDAO.insertProjectNote(pn);
 			}
 		}
@@ -36,6 +37,7 @@ public class ProjectService {
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (!sList.isEmpty() && result > 0) {
 			for (SectionVO s : sList) {
+				s.setProjectId(projectVO.getId());
 				result = projectDAO.insertSection(s);
 			}
 		}

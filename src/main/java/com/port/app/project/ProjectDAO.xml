@@ -69,7 +69,7 @@
 	</select>
 	
 	
-	<insert id="insertProject" parameterType="ProjectVO">
+	<insert id="insertProject" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO project
 			(admin_id, title, summary, team_size, key_features, tech_stack
 			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 

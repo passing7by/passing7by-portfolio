@@ -89,6 +89,15 @@
 						</div>
 						
 						<div class="form-group row">
+							<label class="col-lg-2 col-form-label" for=techStack>사용 기술
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" id="techStack" name="techStack" value="${vo.techStack }">
+							</div>
+						</div>
+						
+						<div class="form-group row">
 							<label class="col-2 col-form-label" for="startDate">시작일
 								<span class="text-danger">*</span>
 							</label>
@@ -142,22 +151,22 @@
 							<div class="project-note-row">
 							
 								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs.title">제목
+									<label class="col-lg-2 col-form-label" for="projectNoteVOs[0].title">제목
 										<span class="text-danger">*</span>
 									</label>
 									
 									<div class="col-lg-7">
-										<input type="text" class="form-control" id="projectNoteVOs.title" name="projectNoteVOs.title" value="${vo.projectNoteVOs.title }">
+										<input type="text" class="form-control" id="projectNoteVOs[0].title" name="projectNoteVOs[0].title" value="${vo.projectNoteVOs[0].title }">
 									</div>
 								</div>
 								
 								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs.url">링크
+									<label class="col-lg-2 col-form-label" for="projectNoteVOs[0].url">링크
 										<span class="text-danger">*</span>
 									</label>
 									
 									<div class="col-lg-7">
-										<input type="url" class="form-control" id="projectNoteVOs.url" name="projectNoteVOs.url" value="${vo.projectNoteVOs.url }">
+										<input type="text" class="form-control" id="projectNoteVOs[0].url" name="projectNoteVOs[0].url" value="${vo.projectNoteVOs[0].url }">
 									</div>
 								</div>
 								
