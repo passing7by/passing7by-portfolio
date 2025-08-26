@@ -39,7 +39,7 @@
 						<div class="media-body">
 							<span class="text-muted">등록됨 · ${vo.formatedRegDate }</span>
 							<br>
-							<c:if test="${vo.formatedModDate ne null }">
+							<c:if test="${vo.modDate ne null }">
 								<span class="text-warning">수정됨 · ${vo.formatedModDate }</span>
 							</c:if>
 							<br><br>
