@@ -45,8 +45,11 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="form-validation">
-					<form action="/${adminUrl }/project/add" method="post" class="form-valide" id="add-form">
-					
+					<form action="${uri }" method="post" class="form-valide" id="add-form">
+						
+						<input type="hidden" value="${vo.id }">
+						asdfasdf${vo.id }
+						
 						<div class="form-group row">
 							<label class="col-lg-2 col-form-label" for="title">제목
 								<span class="text-danger">*</span>
@@ -85,6 +88,15 @@
 							<div class="col-4 row m-0">
 								<input type="number" class="form-control col-7" id="teamSize" name="teamSize" value="${vo.teamSize }">
 								<span class="col-2 align-self-center">인</span>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-lg-2 col-form-label" for=techStack>사용 기술
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-lg-7">
+								<input type="text" class="form-control" id="techStack" name="techStack" value="${vo.techStack }">
 							</div>
 						</div>
 						
@@ -133,109 +145,37 @@
 								<input type="url" class="form-control" id="pptUrl" name="pptUrl" value="${vo.pptUrl }">
 							</div>
 						</div>
-						<hr><hr>
-						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>프로젝트 기록물</h5>
-						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
-							
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs.title">제목
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="text" class="form-control" id="projectNoteVOs.title" name="projectNoteVOs.title" value="${vo.projectNoteVOs.title }">
-									</div>
-								</div>
-								
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs.url">링크
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="url" class="form-control" id="projectNoteVOs.url" name="projectNoteVOs.url" value="${vo.projectNoteVOs.url }">
-									</div>
-								</div>
-								
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-								<br>
-							</div>
-						</div>
-						
-						<div class="row m-0 justify-content-end">
-							<button class="btn btn-normal m-b-30" type="button">추가</button>
-						</div>
 						<hr>
 						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>추가 항목</h5>
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<div class="row m-0 justify-content-between">
+							<h5>프로젝트 기록물</h5>						
+							<button class="btn btn-normal m-b-30 add-btn" id="add-project-note" type="button">추가</button>
+						</div>
 						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
-							
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs.title">제목
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="text" class="form-control" id="sectionVOs.title" name="sectionVOs.title" value="${vo.sectionVOs.title }">
-									</div>
-								</div>
-								
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs.url">내용
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-10">
-										<textarea class="form-control" rows="7" id="sectionVOs.url" name="sectionVOs.url" value="${vo.sectionVOs.url }">
-										</textarea>
-									</div>
-								</div>
-							
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-								<br>
-							
-							</div>
-						</div>
 						
-						<div class="row m-0 justify-content-end">
-							<button class="btn btn-normal m-b-30" type="button">추가</button>
-						</div>
+						<div id="project-note-box"></div>
 						<hr>
 						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>첨부 이미지</h5>
-						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
-							
-								<div class="form-group row">
-									<div class="col-lg-6">
-										<input type="file" class="form-control" id="fileVO" name="fileVO" value="${vo.fileVO.originalName }.${vo.fileVO.extension }">
-									</div>
-								</div>
-								
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-								<br>
-							
-							</div>
-							
-							<div class="row m-0 justify-content-end">
-								<button class="btn btn-normal m-b-z30" type="button">추가</button>
-							</div>
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<div class="row m-0 justify-content-between">
+							<h5>추가 항목</h5>
+							<button class="btn btn-normal m-b-30 add-btn" id="add-section" type="button">추가</button>
 						</div>
+						<br>
+						
+						<div id="section-box"></div>
+						<hr>
+						
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<!-- INFO 파일 기능 구현하기 전까지는 일단 건드리지 마라.... -->
+						<div class="row m-0 justify-content-between">
+							<h5>첨부 이미지</h5>
+							<button class="btn btn-normal m-b-z30 add-btn" id="add-file" type="button">추가</button>
+						</div>
+						<br>
+						
+						<div id="file-box"></div>
 						<br><br>
 						
 						<div class="form-group row m-0 justify-content-end">
