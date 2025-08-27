@@ -26,8 +26,12 @@ public class ProjectService {
 	public int add(ProjectVO projectVO) throws Exception {
 		int result = projectDAO.insertProject(projectVO);
 		
+		// project 테이블에 데이터가 들어가지 않았다면 
+		// project_no, section 테이블에도 데이터가 들어갈 필요가 없기 때문에 바로 리턴
+		if(result == 0) return result;
+		
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
-		if (!pnList.isEmpty() && result > 0) {
+		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
 				pn.setProjectId(projectVO.getId());
 				result = projectDAO.insertProjectNote(pn);
@@ -35,7 +39,7 @@ public class ProjectService {
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
-		if (!sList.isEmpty() && result > 0) {
+		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
 				s.setProjectId(projectVO.getId());
 				result = projectDAO.insertSection(s);

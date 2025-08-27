@@ -142,7 +142,7 @@
 								<input type="url" class="form-control" id="pptUrl" name="pptUrl" value="${vo.pptUrl }">
 							</div>
 						</div>
-						<hr><hr>
+						<hr>
 						
 						<!-- INFO 폼 추가/삭제 기능 구현 -->
 						<div class="row m-0 justify-content-between">
@@ -161,38 +161,7 @@
 						</div>
 						<br>
 						
-						<div id="section-box">
-							<div class="section-row">
-							
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs[0].title">제목
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="text" class="form-control" name="sectionVOs[0].title" value="${vo.sectionVOs[0].title }">
-									</div>
-								</div>
-								
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs[0].content">내용
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-10">
-										<textarea class="form-control" rows="7" name="sectionVOs[0].content">
-											${vo.sectionVOs[0].content }
-										</textarea>
-									</div>
-								</div>
-							
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-							
-							</div>
-							<br>
-						</div>
+						<div id="section-box"></div>
 						<hr>
 						
 						<!-- INFO 폼 추가/삭제 기능 구현 -->
@@ -202,26 +171,8 @@
 							<button class="btn btn-normal m-b-z30 add-btn" id="add-file" type="button">추가</button>
 						</div>
 						<br>
-						<div id="file-box">
-							<div class="file-row">
-							
-								<div class="form-group row">
-									<div class="col-lg-6">
-										<input type="file" class="form-control" name="fileVO" value="${vo.fileVOs[0].originalName }.${vo.fileVOs[0].extension }">
-									</div>
-								</div>
-								
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-							
-							</div>
-							<br>
-							
-							<div class="row m-0 justify-content-end">
-								
-							</div>
-						</div>
+						
+						<div id="file-box"></div>
 						<br><br>
 						
 						<div class="form-group row m-0 justify-content-end">

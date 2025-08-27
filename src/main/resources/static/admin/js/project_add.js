@@ -6,7 +6,7 @@ function createNewRow() {
 
       const newFormGroup1 = document.createElement('div'); // 제목
       const newFormGroup2 = document.createElement('div'); // 내용
-      newFormGroup1.className = 'form-group row';
+      newFormGroup1.className = 'form-group row title-fg-row';
       newFormGroup2.className = 'form-group row';
 
       newRow.appendChild(newFormGroup1);
@@ -35,21 +35,28 @@ function createNewRow() {
       const inputDiv1 = document.createElement('div'); // 제목
       const inputDiv2 = document.createElement('div'); // 내용
       inputDiv1.className = 'col-lg-7';
-      inputDiv2.className = 'col-lg-7';
+      inputDiv2.className = 'col-lg-7 content-input-div';
 
       newFormGroup1.appendChild(inputDiv1);
       newFormGroup2.appendChild(inputDiv2);
 
+      // -------------------------------------------------------------------------
+      // inputDiv에는 input, textarea를 미리 넣어 놓음
+      // 나중에 뭘 사용할건지 택1 하고, 나머지 하나는 지우기
+
       const input1 = document.createElement('input'); // 제목
-      const input2 = document.createElement('input'); // 내용
-      input1.type = 'text';
-      input2.type = 'text';
+      const input2 = document.createElement('input'); // 내용(input)
+      const textarea = document.createElement('textarea') // 내용(textarea)
       input1.className = 'form-control title-input';
       input2.className = 'form-control content-input';
+      textarea.className = 'form-control content-textarea';
+      // type
       // name
 
       inputDiv1.appendChild(input1);
       inputDiv2.appendChild(input2);
+      inputDiv2.appendChild(textarea);
+      // -------------------------------------------------------------------------
 
       const delDiv = document.createElement('div')
       delDiv.className = 'row m-0 justify-content-end';
@@ -75,11 +82,6 @@ const projectNoteBox = document.querySelector('#project-note-box');
 const sectionBox = document.querySelector('#section-box');
 const fileBox = document.querySelector('#file-box');
 
-// console.log(addBtns);
-// console.log(projectNoteBox);
-// console.log(sectionBox);
-// console.log(fileBox);
-
 let projectNoteCnt = 0;
 let sectionCnt = 0;
 let fileCnt = 0;
@@ -87,8 +89,9 @@ let fileCnt = 0;
 addBtns.forEach(b => {
   b.addEventListener('click', function () {
     if(b.id === 'add-project-note') {
-      // console.log('p');
-      const newRow = createNewRow();
+			console.log('projectNoteCnt: ', projectNoteCnt);
+			
+			const newRow = createNewRow();
       newRow.className = 'project-note-row';
 
       const titleLabel = newRow.querySelector('.title-label');
@@ -96,6 +99,7 @@ addBtns.forEach(b => {
       titleLabel.prepend('제목');
 
       const titleInput = newRow.querySelector('.title-input');
+      titleInput.type = 'text';
       titleInput.setAttribute('name', `projectNoteVOs[${projectNoteCnt}].title`);
 
       const contentLabel = newRow.querySelector('.content-label');
@@ -103,41 +107,85 @@ addBtns.forEach(b => {
       contentLabel.prepend('링크');
 
       const contentInput = newRow.querySelector('.content-input');
+      contentInput.type = 'text';
       contentInput.setAttribute('name', `projectNoteVOs[${projectNoteCnt}].url`);
+      newRow.querySelector('.content-textarea').remove();
 
       projectNoteBox.appendChild(newRow);
 
       projectNoteCnt++;
-      // console.log(projectNoteCnt);
-
+      
     } else if (b.id === 'add-section') {
-      // console.log('s');
+			console.log('sectionCnt: ', sectionCnt);
 
-      // TODO 마저 구현
-      // const newRow = createNewRow();
-      // newRow.className = 'section-row';
+      const newRow = createNewRow();
+      newRow.className = 'section-row';
 
+      const titleLabel = newRow.querySelector('.title-label');
+      titleLabel.setAttribute('for', `sectionVOs[${sectionCnt}].title`);
+      titleLabel.prepend('제목');
+
+      const titleInput = newRow.querySelector('.title-input');
+      titleInput.type = 'text';
+      titleInput.setAttribute('name', `sectionVOs[${sectionCnt}].title`);
+
+      const contentLabel = newRow.querySelector('.content-label');
+      contentLabel.setAttribute('for', `sectionVOs[${sectionCnt}].content`);
+      contentLabel.prepend('내용');
+
+      const contentInputDiv = newRow.querySelector('.content-input-div');
+      contentInputDiv.classList.remove('col-lg-7');
+      contentInputDiv.classList.add('col-lg-10');
+
+      const contentInput = newRow.querySelector('.content-textarea');
+      contentInput.setAttribute('name', `sectionVOs[${sectionCnt}].content`);
+      contentInput.setAttribute('rows', '7');
+      newRow.querySelector('.content-input').remove();
+
+      sectionBox.appendChild(newRow);
+
+      sectionCnt++;
+      
+    } else if (b.id === 'add-file') {
+      console.log('f');
+      console.log('fileCnt: ', fileCnt);
+
+      const newRow = createNewRow();
+      newRow.className = 'file-row';
+
+      // 이 코드들 제거 & row div에서 제목 form group row div, label 제거
       // const titleLabel = newRow.querySelector('.title-label');
-      // titleLabel.setAttribute('for', `sectionVOs[${sectionCntCnt}].title`);
+      // titleLabel.setAttribute('for', `sectionVOs[${sectionCnt}].title`);
       // titleLabel.prepend('제목');
 
       // const titleInput = newRow.querySelector('.title-input');
-      // titleInput.setAttribute('name', `sectionVOs[${sectionCntCnt}].title`);
+      // titleInput.type = 'text';
+      // titleInput.setAttribute('name', `sectionVOs[${sectionCnt}].title`);
 
       // const contentLabel = newRow.querySelector('.content-label');
-      // contentLabel.setAttribute('for', `sectionVOs[${projectNoteCnt}].url`);
-      // contentLabel.prepend('링크');
+      // contentLabel.setAttribute('for', `sectionVOs[${sectionCnt}].content`);
+      // contentLabel.prepend('내용');
 
-      // const contentInput = newRow.querySelector('.content-input');
-      // contentInput.setAttribute('name', `projectNoteVOs[${projectNoteCnt}].url`);
+      // const contentInputDiv = newRow.querySelector('.content-input-div');
+      // contentInputDiv.classList.remove('col-lg-7');
+      // contentInputDiv.classList.add('col-lg-10');
+      newRow.querySelector('.title-fg-row').remove();
 
-      // projectNoteBox.appendChild(newRow);
+      newRow.querySelector('.content-label').remove();
 
-      // projectNoteCnt++;
-      // console.log(projectNoteCnt);
-      
-    } else if (b.id === 'add-file') {
-      // console.log('f');
+			const contentInputDiv = newRow.querySelector('.content-input-div');
+			contentInputDiv.classList.remove('col-lg-7');
+			contentInputDiv.classList.add('col-lg-6');
+			
+			const contentInput = newRow.querySelector('.content-input');
+      contentInput.type = 'file';
+      contentInput.setAttribute('name', `sectionVO`);
+
+      newRow.querySelector('.content-textarea').remove();
+
+      fileBox.appendChild(newRow);
+
+      fileCnt++;
     }
   });
 });
