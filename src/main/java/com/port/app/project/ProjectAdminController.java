@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/${url.admin}/project/*")
 public class ProjectAdminController {
+	
 	@Autowired
 	private ProjectService projectService;
 	
@@ -80,6 +81,8 @@ public class ProjectAdminController {
 	
 	@GetMapping("update") // TODO session의 adminId 사용
 	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
+		System.err.println(projectVO);
+		
 		// 요청 uri에 따라 form의 action 경로가 update인지 add인지 나눔
 		String uri = req.getRequestURI().toString();
 		model.addAttribute("uri", uri);

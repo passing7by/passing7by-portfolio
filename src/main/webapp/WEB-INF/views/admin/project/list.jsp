@@ -40,8 +40,8 @@
 				
 				<div class="row m-0">
 					<a class="btn btn-primary m-b-30 mr-2" href="/${adminUrl }/project/add">등록</a>
-					<button class="btn btn-success m-b-30 mr-2">수정</button>
-					<button class="btn btn-danger m-b-30">삭제</button>
+<!-- 					<button class="btn btn-success m-b-30 mr-2">수정</button>
+					<button class="btn btn-danger m-b-30">삭제</button> -->
 				</div>
 				
 			</div>
