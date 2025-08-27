@@ -46,19 +46,24 @@ public class ProjectAdminController {
 	
 	@GetMapping("detail") // TODO session의 adminId 사용
 	public String detail(ProjectVO projectVO, Model model) throws Exception {
-		ProjectVO result = projectService.detail(projectVO);
-		result.setAdminId(null);
-		
+		ProjectVO result = projectService.detail(projectVO); // id로 조회
 		System.err.println(result);
 		
-		model.addAttribute("vo", result);
+		String url = "redirect:./list?isDeleted=0"; // 조회된 데이터가 없으면 list 페이지로 redirect
+		if(result != null) {
+			result.setAdminId(null); // 데이터를 내보내기 전 adminId값 null로 설정
+			model.addAttribute("vo", result);
+			url = "admin/project/detail";
+		}
 		
-		return "admin/project/detail";
+		return url;
 	}
 	
 	@GetMapping("add")
 	public String add(Model model, HttpServletRequest req) throws Exception {
 		String uri = req.getRequestURI().toString();
+		System.err.println(uri);
+		
 		model.addAttribute("uri", uri);
 		
 		return "admin/project/add";
@@ -75,8 +80,13 @@ public class ProjectAdminController {
 	
 	@GetMapping("update") // TODO session의 adminId 사용
 	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
+		// 요청 uri에 따라 form의 action 경로가 update인지 add인지 나눔
 		String uri = req.getRequestURI().toString();
 		model.addAttribute("uri", uri);
+		
+		// 요청시 받아온 id로 detail 조회
+		projectVO = projectService.detail(projectVO);
+		model.addAttribute("vo", projectVO);
 		
 		return "admin/project/add";
 	}
@@ -85,7 +95,7 @@ public class ProjectAdminController {
 	public String update(ProjectVO projectVO) throws Exception {
 		int result = projectService.update(projectVO);
 		
-		return "redirect:./list"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
+		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
 	}
 	
 	@PostMapping("delete") // TODO session의 adminId 사용

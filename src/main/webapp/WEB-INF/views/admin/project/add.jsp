@@ -45,8 +45,11 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="form-validation">
-					<form action="/${adminUrl }/project/add" method="post" class="form-valide" id="add-form">
-					
+					<form action="${uri }" method="post" class="form-valide" id="add-form">
+						
+						<input type="hidden" value="${vo.id }">
+						asdfasdf${vo.id }
+						
 						<div class="form-group row">
 							<label class="col-lg-2 col-form-label" for="title">제목
 								<span class="text-danger">*</span>

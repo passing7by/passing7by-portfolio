@@ -33,20 +33,20 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
-				if(pn.getTitle() != null) {
-					pn.setProjectId(projectVO.getId());
-					result = projectDAO.insertProjectNote(pn);
-				}
+				if(pn.getTitle() == null) continue;
+				
+				pn.setProjectId(projectVO.getId());
+				result = projectDAO.insertProjectNote(pn);
 			}
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
-				if (s.getTitle() != null) {
-					s.setProjectId(projectVO.getId());
-					result = projectDAO.insertSection(s);
-				}
+				if (s.getTitle() == null) continue;
+				
+				s.setProjectId(projectVO.getId());
+				result = projectDAO.insertSection(s);
 			}
 		}
 		
@@ -58,26 +58,31 @@ public class ProjectService {
 	public int update(ProjectVO projectVO) throws Exception {
 		int result = projectDAO.updateProject(projectVO);
 		
+		// project 테이블에 데이터가 업데이트되지 않았다면 
+		// project_no, section 테이블에도 데이터가 업데이트되지 않도록 하기 위해 바로 리턴
+		if(result == 0) return result;
+		
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
-		if (!pnList.isEmpty() && result > 0) {
+		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				if(pn.getTitle() == null) continue;
+				
+				pn.setProjectId(projectVO.getId());
 				result = projectDAO.updateProjectNote(pn);
 			}
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
-		if (!sList.isEmpty() && result > 0) {
+		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
+				if (s.getTitle() == null) continue;
+				
+				s.setProjectId(projectVO.getId());
 				result = projectDAO.updateSection(s);
 			}
 		}
 		
-		List<FileVO> fList = projectVO.getFileVOs();
-		if (!fList.isEmpty() && result > 0) {
-			for (FileVO f : fList) {
-				result = projectDAO.updateFile(f);
-			}
-		}
+		// TODO 파일 정보는 멀티파트에서 가져와야 함
 		
 		return result;
 	}
