@@ -49,6 +49,8 @@ public class ProjectAdminController {
 		ProjectVO result = projectService.detail(projectVO);
 		result.setAdminId(null);
 		
+		System.err.println(result);
+		
 		model.addAttribute("vo", result);
 		
 		return "admin/project/detail";

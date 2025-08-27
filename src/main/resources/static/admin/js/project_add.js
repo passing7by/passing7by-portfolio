@@ -1,6 +1,9 @@
 /**
- * 동적으로 폼을 추가할 수 있는 기능
+ * 동적으로 폼을 추가/삭제
  */
+
+// 폼 추가
+
 function createNewRow() {
       const newRow = document.createElement('div');
 
@@ -64,7 +67,7 @@ function createNewRow() {
       newRow.appendChild(delDiv);
 
       const del = document.createElement('button');
-      del.className = 'btn btn-danger m-b-30';
+      del.className = 'btn btn-danger m-b-30 del';
       del.type = 'button';
       del.textContent = '삭제';
 
@@ -82,13 +85,15 @@ const projectNoteBox = document.querySelector('#project-note-box');
 const sectionBox = document.querySelector('#section-box');
 const fileBox = document.querySelector('#file-box');
 
+let dels;
+
 let projectNoteCnt = 0;
 let sectionCnt = 0;
 let fileCnt = 0;
 
-addBtns.forEach(b => {
-  b.addEventListener('click', function () {
-    if(b.id === 'add-project-note') {
+addBtns.forEach(a => {
+  a.addEventListener('click', function () {
+    if(a.id === 'add-project-note') {
 			console.log('projectNoteCnt: ', projectNoteCnt);
 			
 			const newRow = createNewRow();
@@ -115,7 +120,7 @@ addBtns.forEach(b => {
 
       projectNoteCnt++;
       
-    } else if (b.id === 'add-section') {
+    } else if (a.id === 'add-section') {
 			console.log('sectionCnt: ', sectionCnt);
 
       const newRow = createNewRow();
@@ -146,29 +151,13 @@ addBtns.forEach(b => {
 
       sectionCnt++;
       
-    } else if (b.id === 'add-file') {
+    } else if (a.id === 'add-file') {
       console.log('f');
       console.log('fileCnt: ', fileCnt);
 
       const newRow = createNewRow();
       newRow.className = 'file-row';
 
-      // 이 코드들 제거 & row div에서 제목 form group row div, label 제거
-      // const titleLabel = newRow.querySelector('.title-label');
-      // titleLabel.setAttribute('for', `sectionVOs[${sectionCnt}].title`);
-      // titleLabel.prepend('제목');
-
-      // const titleInput = newRow.querySelector('.title-input');
-      // titleInput.type = 'text';
-      // titleInput.setAttribute('name', `sectionVOs[${sectionCnt}].title`);
-
-      // const contentLabel = newRow.querySelector('.content-label');
-      // contentLabel.setAttribute('for', `sectionVOs[${sectionCnt}].content`);
-      // contentLabel.prepend('내용');
-
-      // const contentInputDiv = newRow.querySelector('.content-input-div');
-      // contentInputDiv.classList.remove('col-lg-7');
-      // contentInputDiv.classList.add('col-lg-10');
       newRow.querySelector('.title-fg-row').remove();
 
       newRow.querySelector('.content-label').remove();
@@ -179,7 +168,7 @@ addBtns.forEach(b => {
 			
 			const contentInput = newRow.querySelector('.content-input');
       contentInput.type = 'file';
-      contentInput.setAttribute('name', `sectionVO`);
+      contentInput.setAttribute('name', `fileVO`);
 
       newRow.querySelector('.content-textarea').remove();
 
@@ -187,6 +176,20 @@ addBtns.forEach(b => {
 
       fileCnt++;
     }
+		
+		// 폼 삭제
+		
+		// 항목이 추가될 때마다 각 항목에 있는 삭제 버튼들을 불러와서 삭제 버튼 목록을 갱신하고 각 삭제 버튼에 이벤트 달기
+		dels = document.querySelectorAll('.del');
+		console.log(dels);
+		
+		dels.forEach((d) => {
+		  d.addEventListener('click', function () {
+		    console.log('click');
+		    d.parentElement.parentElement.remove();
+		  });
+		});
+		
   });
 });
 

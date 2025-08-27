@@ -6,10 +6,10 @@
 
 <mapper namespace="com.port.app.project.ProjectDAO">
 	<resultMap type="ProjectVO" id="detailResult">
-		<id column="id" property="id"/>
+		<id column="p_id" property="id"/>
 		
 		<result column="admin_id" property="adminId"/>
-		<result column="title" property="title"/>
+		<result column="p_title" property="title"/>
 		<result column="summary" property="summary"/>
 		<result column="team_size" property="teamSize"/>
 		<result column="key_features" property="keyFeatures"/>
@@ -27,21 +27,21 @@
 		<result column="row_number" property="rowNumber"/>
 		
 		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
-			<id column="id" property="id"/>
+			<id column="pn_id" property="id"/>
 			
-			<result column="title" property="title"/>
+			<result column="pn_title" property="title"/>
 			<result column="url" property="url"/>
 		</collection>
 		
 		<collection property="sectionVOs" javaType="java.util.List" ofType="SectionVO">
-			<id column="id" property="id"/>
+			<id column="s_id" property="id"/>
 			
-			<result column="title" property="title"/>
+			<result column="s_title" property="title"/>
 			<result column="content" property="content"/>
 		</collection>
 		
 		<collection property="fileVOs" javaType="java.util.List" ofType="FileVO">
-			<id column="id" property="id"/>
+			<id column="i_id" property="id"/>
 			
 			<result column="ori_name" property="oriName"/>
 			<result column="saved_name" property="savedName"/>
@@ -61,7 +61,15 @@
 	</select>
 	
 	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
-		SELECT *
+		SELECT
+			p.*, s.*, i.*, pn.*
+			,p.id AS p_id
+			,s.id AS s_id
+			,i.id AS i_id
+			,pn.id AS pn_id
+			,p.title AS p_title
+			,s.title AS s_title
+			,pn.title AS pn_title
 		FROM (SELECT * FROM project WHERE admin_id = 1 AND id = #{id}) p
 		LEFT JOIN section s ON (p.id = s.project_id)
 		LEFT JOIN image i ON (p.id = i.project_id)

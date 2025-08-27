@@ -33,16 +33,20 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
-				pn.setProjectId(projectVO.getId());
-				result = projectDAO.insertProjectNote(pn);
+				if(pn.getTitle() != null) {
+					pn.setProjectId(projectVO.getId());
+					result = projectDAO.insertProjectNote(pn);
+				}
 			}
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
-				s.setProjectId(projectVO.getId());
-				result = projectDAO.insertSection(s);
+				if (s.getTitle() != null) {
+					s.setProjectId(projectVO.getId());
+					result = projectDAO.insertSection(s);
+				}
 			}
 		}
 		
