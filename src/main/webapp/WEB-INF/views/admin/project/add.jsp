@@ -189,22 +189,23 @@
 							<div class="project-note-row">
 							
 								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs.title">제목
+									<label class="col-lg-2 col-form-label" for="sectionVOs[0].title">제목
 										<span class="text-danger">*</span>
 									</label>
 									
 									<div class="col-lg-7">
-										<input type="text" class="form-control" id="sectionVOs.title" name="sectionVOs.title" value="${vo.sectionVOs.title }">
+										<input type="text" class="form-control" id="sectionVOs[0].title" name="sectionVOs[0].title" value="${vo.sectionVOs[0].title }">
 									</div>
 								</div>
 								
 								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="sectionVOs.url">내용
+									<label class="col-lg-2 col-form-label" for="sectionVOs[0].content">내용
 										<span class="text-danger">*</span>
 									</label>
 									
 									<div class="col-lg-10">
-										<textarea class="form-control" rows="7" id="sectionVOs.url" name="sectionVOs.url" value="${vo.sectionVOs.url }">
+										<textarea class="form-control" rows="7" id="sectionVOs[0].content" name="sectionVOs[0].content">
+											${vo.sectionVOs[0].content }
 										</textarea>
 									</div>
 								</div>
