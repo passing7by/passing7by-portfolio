@@ -144,49 +144,25 @@
 						</div>
 						<hr><hr>
 						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>프로젝트 기록물</h5>
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<div class="row m-0 justify-content-between">
+							<h5>프로젝트 기록물</h5>						
+							<button class="btn btn-normal m-b-30 add-btn" id="add-project-note" type="button">추가</button>
+						</div>
 						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
-							
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs[0].title">제목
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="text" class="form-control" id="projectNoteVOs[0].title" name="projectNoteVOs[0].title" value="${vo.projectNoteVOs[0].title }">
-									</div>
-								</div>
-								
-								<div class="form-group row">
-									<label class="col-lg-2 col-form-label" for="projectNoteVOs[0].url">링크
-										<span class="text-danger">*</span>
-									</label>
-									
-									<div class="col-lg-7">
-										<input type="text" class="form-control" id="projectNoteVOs[0].url" name="projectNoteVOs[0].url" value="${vo.projectNoteVOs[0].url }">
-									</div>
-								</div>
-								
-								<div class="row m-0 justify-content-end">
-									<button class="btn btn-danger m-b-30" type="button">삭제</button>
-								</div>
-								<br>
-							</div>
-						</div>
 						
-						<div class="row m-0 justify-content-end">
-							<button class="btn btn-normal m-b-30" type="button">추가</button>
-						</div>
+						<div id="project-note-box"></div>
 						<hr>
 						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>추가 항목</h5>
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<div class="row m-0 justify-content-between">
+							<h5>추가 항목</h5>
+							<button class="btn btn-normal m-b-30 add-btn" id="add-section" type="button">추가</button>
+						</div>
 						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
+						
+						<div id="section-box">
+							<div class="section-row">
 							
 								<div class="form-group row">
 									<label class="col-lg-2 col-form-label" for="sectionVOs[0].title">제목
@@ -194,7 +170,7 @@
 									</label>
 									
 									<div class="col-lg-7">
-										<input type="text" class="form-control" id="sectionVOs[0].title" name="sectionVOs[0].title" value="${vo.sectionVOs[0].title }">
+										<input type="text" class="form-control" name="sectionVOs[0].title" value="${vo.sectionVOs[0].title }">
 									</div>
 								</div>
 								
@@ -204,7 +180,7 @@
 									</label>
 									
 									<div class="col-lg-10">
-										<textarea class="form-control" rows="7" id="sectionVOs[0].content" name="sectionVOs[0].content">
+										<textarea class="form-control" rows="7" name="sectionVOs[0].content">
 											${vo.sectionVOs[0].content }
 										</textarea>
 									</div>
@@ -213,37 +189,37 @@
 								<div class="row m-0 justify-content-end">
 									<button class="btn btn-danger m-b-30" type="button">삭제</button>
 								</div>
-								<br>
 							
 							</div>
-						</div>
-						
-						<div class="row m-0 justify-content-end">
-							<button class="btn btn-normal m-b-30" type="button">추가</button>
+							<br>
 						</div>
 						<hr>
 						
-						<!-- 폼 추가/삭제 기능 구현 -->
-						<h5>첨부 이미지</h5>
+						<!-- INFO 폼 추가/삭제 기능 구현 -->
+						<!-- INFO 파일 기능 구현하기 전까지는 일단 건드리지 마라.... -->
+						<div class="row m-0 justify-content-between">
+							<h5>첨부 이미지</h5>
+							<button class="btn btn-normal m-b-z30 add-btn" id="add-file" type="button">추가</button>
+						</div>
 						<br>
-						<div id="project-note-box">
-							<div class="project-note-row">
+						<div id="file-box">
+							<div class="file-row">
 							
 								<div class="form-group row">
 									<div class="col-lg-6">
-										<input type="file" class="form-control" id="fileVO" name="fileVO" value="${vo.fileVO.originalName }.${vo.fileVO.extension }">
+										<input type="file" class="form-control" name="fileVO" value="${vo.fileVOs[0].originalName }.${vo.fileVOs[0].extension }">
 									</div>
 								</div>
 								
 								<div class="row m-0 justify-content-end">
 									<button class="btn btn-danger m-b-30" type="button">삭제</button>
 								</div>
-								<br>
 							
 							</div>
+							<br>
 							
 							<div class="row m-0 justify-content-end">
-								<button class="btn btn-normal m-b-z30" type="button">추가</button>
+								
 							</div>
 						</div>
 						<br><br>
