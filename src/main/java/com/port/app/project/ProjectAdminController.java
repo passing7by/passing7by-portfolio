@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/${url.admin}/project/*")
 public class ProjectAdminController {
@@ -71,10 +74,18 @@ public class ProjectAdminController {
 	}
 	
 	@PostMapping("add") // TODO session의 adminId 사용
-	public String add(ProjectVO projectVO) throws Exception {
-		System.err.println(projectVO);
+	public String add(ProjectVO projectVO, MultipartFile[] attches) throws Exception {
+		log.warn(projectVO.toString());
+		log.warn(attches.toString());
 		
-		int result = projectService.add(projectVO);
+//		for (MultipartFile m : attches) {
+//			log.warn(m.getContentType()); // image/png
+//			log.warn(m.getName()); // fileVO
+//			log.warn(m.getOriginalFilename()); // HbTnAdtcVYg5KfSIqOvL1aGq5hiiJK1NjL8OTOSGLs1dnr6plBnNFGH2p1FE9Zip1OrE2sajLPqI2if387ywNg.png
+//			log.warn(m.getSize() + ""); // 17366
+//		}
+		
+		int result = projectService.add(projectVO, attches);
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}

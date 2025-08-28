@@ -45,7 +45,8 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="form-validation">
-					<form action="${uri }" method="post" class="form-valide" id="add-form">
+					<form action="${uri }" method="post" enctype="multipart/form-data" class="form-valide" id="add-form">
+					<!-- form 태그에 반드시 enctype="multipart/form-data" 를 작성해 주어야 파일 데이터를 컨트롤러가 받을 수 있음 -->
 						
 						<input type="hidden" name="id" value="${vo.id }">
 						

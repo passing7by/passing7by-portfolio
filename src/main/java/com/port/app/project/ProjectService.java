@@ -3,17 +3,30 @@ package com.port.app.project;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ProjectService {
+	
+	@Value("${app.upload}")
+	private String upload;
+	
+	@Value("${cat.project}")
+	private String project;
+	
 	@Autowired
 	private ProjectDAO projectDAO;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	public List<ProjectVO> listForAdmin(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectListForAdmin(projectVO);
@@ -23,7 +36,7 @@ public class ProjectService {
 		return projectDAO.selectDetailForAdmin(projectVO);
 	}
 	
-	public int add(ProjectVO projectVO) throws Exception {
+	public int add(ProjectVO projectVO, MultipartFile[] attches) throws Exception {
 		int result = projectDAO.insertProject(projectVO);
 		
 		// project 테이블에 데이터가 들어가지 않았다면 
@@ -52,7 +65,16 @@ public class ProjectService {
 			}
 		}
 		
-		// TODO 파일 정보는 멀티파트에서 가져와야 함
+		if (attches != null && attches.length > 0) {
+			for (MultipartFile a : attches) {
+				// 1. file을 HDD에 저장하고 saveName을 받아옴
+				FileVO fileVO = fileManager.saveFile(upload + project, a);
+				fileVO.setProjectId(projectVO.getId());
+				
+				// 2. DB에 데이터 저장
+				result = projectDAO.insertFile(fileVO);
+			}
+		}
 		
 		return result;
 	}

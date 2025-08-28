@@ -174,7 +174,7 @@ addBtns.forEach(a => {
 			
 			const contentInput = newRow.querySelector('.content-input');
       contentInput.type = 'file';
-      contentInput.setAttribute('name', `fileVO`);
+      contentInput.setAttribute('name', `attches`);
 
       newRow.querySelector('.content-textarea').remove();
 
