@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/${url.admin}/project/*")
 public class ProjectAdminController {
+	
 	@Autowired
 	private ProjectService projectService;
 	
@@ -70,16 +74,19 @@ public class ProjectAdminController {
 	}
 	
 	@PostMapping("add") // TODO session의 adminId 사용
-	public String add(ProjectVO projectVO) throws Exception {
-		System.err.println(projectVO);
+	public String add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
+		log.warn(projectVO.toString());
+		log.warn(attaches.toString());
 		
-		int result = projectService.add(projectVO);
+		int result = projectService.add(projectVO, attaches);
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}
 	
 	@GetMapping("update") // TODO session의 adminId 사용
 	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
+		System.err.println(projectVO);
+		
 		// 요청 uri에 따라 form의 action 경로가 update인지 add인지 나눔
 		String uri = req.getRequestURI().toString();
 		model.addAttribute("uri", uri);
@@ -92,8 +99,11 @@ public class ProjectAdminController {
 	}
 	
 	@PostMapping("update") // TODO session의 adminId 사용
-	public String update(ProjectVO projectVO) throws Exception {
-		int result = projectService.update(projectVO);
+	public String update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
+		log.warn(projectVO.toString());
+		log.warn(attaches.toString());
+		
+		int result = projectService.update(projectVO, attaches);
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
 	}

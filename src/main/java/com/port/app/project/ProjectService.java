@@ -3,17 +3,30 @@ package com.port.app.project;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ProjectService {
+	
+	@Value("${app.upload}")
+	private String upload;
+	
+	@Value("${cat.project}")
+	private String project;
+	
 	@Autowired
 	private ProjectDAO projectDAO;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	public List<ProjectVO> listForAdmin(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectListForAdmin(projectVO);
@@ -23,7 +36,7 @@ public class ProjectService {
 		return projectDAO.selectDetailForAdmin(projectVO);
 	}
 	
-	public int add(ProjectVO projectVO) throws Exception {
+	public int add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.insertProject(projectVO);
 		
 		// project 테이블에 데이터가 들어가지 않았다면 
@@ -33,6 +46,7 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
 				if(pn.getTitle() == null) continue;
 				
 				pn.setProjectId(projectVO.getId());
@@ -43,6 +57,7 @@ public class ProjectService {
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
 				if (s.getTitle() == null) continue;
 				
 				s.setProjectId(projectVO.getId());
@@ -50,12 +65,21 @@ public class ProjectService {
 			}
 		}
 		
-		// TODO 파일 정보는 멀티파트에서 가져와야 함
+		if (attaches != null && attaches.length > 0) {
+			for (MultipartFile a : attaches) {
+				// 1. file을 HDD에 저장하고 saveName을 받아옴
+				FileVO fileVO = fileManager.saveFile(upload + project, a);
+				fileVO.setProjectId(projectVO.getId());
+				
+				// 2. DB에 데이터 저장
+				result = projectDAO.insertFile(fileVO);
+			}
+		}
 		
 		return result;
 	}
 	
-	public int update(ProjectVO projectVO) throws Exception {
+	public int update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.updateProject(projectVO);
 		
 		// project 테이블에 데이터가 업데이트되지 않았다면 
@@ -65,24 +89,41 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
 				if(pn.getTitle() == null) continue;
 				
 				pn.setProjectId(projectVO.getId());
-				result = projectDAO.updateProjectNote(pn);
+				
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(pn.getId() != null) result = projectDAO.updateProjectNote(pn);
+				else result = projectDAO.insertProjectNote(pn);
 			}
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
 				if (s.getTitle() == null) continue;
 				
 				s.setProjectId(projectVO.getId());
-				result = projectDAO.updateSection(s);
+
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(s.getId() != null) result = projectDAO.updateSection(s);
+				else result = projectDAO.insertSection(s);
 			}
 		}
 		
-		// TODO 파일 정보는 멀티파트에서 가져와야 함
+		if (attaches != null && attaches.length > 0) {
+			for (MultipartFile a : attaches) {
+				// 1. file을 HDD에 저장하고 saveName을 받아옴
+				FileVO fileVO = fileManager.saveFile(upload + project, a);
+				fileVO.setProjectId(projectVO.getId());
+				
+				// 2. DB에 데이터 저장
+				result = projectDAO.insertFile(fileVO);
+			}
+		}
 		
 		return result;
 	}

@@ -169,11 +169,11 @@
 				<!-- TODO 시간이 된다면 form에 다 때려넣는 방식 대신 js 사용 방식으로 수정 -->
 				<div class="row m-0 justify-content-end">
 					<form action="/${adminUrl }/project/update" method="get" class="mr-2">
-						<input type="hidden" value="${vo.id }">
+						<input type="hidden" name="id" value="${vo.id }">
 						<button class="btn btn-success m-b-30">수정</button>
 					</form>
 					<form action="/${adminUrl }/project/delete" method="post">
-						<input type="hidden" value="${vo.id }">
+						<input type="hidden" name="id" value="${vo.id }">
 						<button class="btn btn-danger m-b-30">삭제</button>
 					</form>
 				</div>

@@ -14,6 +14,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("[요청] {} {}", request.getMethod(), request.getRequestURI());
+		log.info("[응답한 요청] {} {}", request.getMethod(), request.getRequestURI());
 	}
 }

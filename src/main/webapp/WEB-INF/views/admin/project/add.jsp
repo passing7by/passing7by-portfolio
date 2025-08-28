@@ -45,10 +45,10 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="form-validation">
-					<form action="${uri }" method="post" class="form-valide" id="add-form">
+					<form action="${uri }" method="post" enctype="multipart/form-data" class="form-valide" id="add-form">
+					<!-- form 태그에 반드시 enctype="multipart/form-data" 를 작성해 주어야 파일 데이터를 컨트롤러가 받을 수 있음 -->
 						
-						<input type="hidden" value="${vo.id }">
-						asdfasdf${vo.id }
+						<input type="hidden" name="id" value="${vo.id }">
 						
 						<div class="form-group row">
 							<label class="col-lg-2 col-form-label" for="title">제목
@@ -147,27 +147,89 @@
 						</div>
 						<hr>
 						
-						<!-- INFO 폼 추가/삭제 기능 구현 -->
 						<div class="row m-0 justify-content-between">
 							<h5>프로젝트 기록물</h5>						
 							<button class="btn btn-normal m-b-30 add-btn" id="add-project-note" type="button">추가</button>
 						</div>
 						<br>
 						
-						<div id="project-note-box"></div>
+						<div id="project-note-box">
+							<c:if test="${not empty vo.projectNoteVOs }">
+								<c:forEach items="${vo.projectNoteVOs }" varStatus="i" var="pn">
+								
+									<div class="project-note-row">
+										<input type="hidden" name="projectNoteVOs[${i.index }].id" value="${pn.id }">
+										<div class="form-group row title-fg-row">
+											<label class="col-lg-2 col-form-label title-label"
+												for="projectNoteVOs[${i.index }].title">제목<span
+												class="text-danger">*</span></label>
+											<div class="col-lg-7">
+												<input class="form-control title-input" type="text"
+													name="projectNoteVOs[${i.index }].title" value="${pn.title }">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-2 col-form-label content-label"
+												for="projectNoteVOs[${i.index }].url">링크<span
+												class="text-danger">*</span></label>
+											<div class="col-lg-7 content-input-div">
+												<input class="form-control content-input" type="text"
+													name="projectNoteVOs[${i.index }].url" value="${pn.url }">
+											</div>
+										</div>
+										<div class="row m-0 justify-content-end">
+											<button class="btn btn-danger m-b-30 del" type="button">삭제</button>
+										</div>
+										<br>
+									</div>
+									
+								</c:forEach>
+							</c:if>
+						</div>
 						<hr>
 						
-						<!-- INFO 폼 추가/삭제 기능 구현 -->
 						<div class="row m-0 justify-content-between">
 							<h5>추가 항목</h5>
 							<button class="btn btn-normal m-b-30 add-btn" id="add-section" type="button">추가</button>
 						</div>
 						<br>
 						
-						<div id="section-box"></div>
+						<div id="section-box">
+							<c:if test="${not empty vo.sectionVOs }">
+								<c:forEach items="${vo.sectionVOs }" varStatus="i" var="s">
+
+									<div class="section-row">
+										<input type="hidden" name="sectionVOs[${i.index }].id" value="${s.id }">
+										<div class="form-group row title-fg-row">
+											<label class="col-lg-2 col-form-label title-label"
+												for="sectionVOs[${i.index }].title">제목<span
+												class="text-danger">*</span></label>
+											<div class="col-lg-7">
+												<input class="form-control title-input" type="text"
+													name="sectionVOs[${i.index }].title" value="${s.title }">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-2 col-form-label content-label"
+												for="sectionVOs[${i.index }].content">내용<span
+												class="text-danger">*</span></label>
+											<div class="content-input-div col-lg-10">
+												<textarea class="form-control content-textarea"
+													name="sectionVOs[${i.index }].content" rows="7">${s.content }</textarea>
+											</div>
+										</div>
+										<div class="row m-0 justify-content-end">
+											<button class="btn btn-danger m-b-30 del" type="button">삭제</button>
+										</div>
+										<br>
+									</div>
+
+								</c:forEach>
+							</c:if>
+						
+						</div>
 						<hr>
 						
-						<!-- INFO 폼 추가/삭제 기능 구현 -->
 						<!-- INFO 파일 기능 구현하기 전까지는 일단 건드리지 마라.... -->
 						<div class="row m-0 justify-content-between">
 							<h5>첨부 이미지</h5>
@@ -175,7 +237,15 @@
 						</div>
 						<br>
 						
-						<div id="file-box"></div>
+						<div id="file-box">
+							<c:if test="${not empty vo.fileVOs }">
+							<!-- TODO 버튼 눌렀을 때 삭제되도록 구현 -->
+ 								<c:forEach items="${vo.fileVOs }" varStatus="i" var="f">
+									<button class="deleteFile mb-1 btn" type="button" data-file-num = "${f.id}">${f.oriName}</button>
+								</c:forEach>
+							</c:if>
+							
+						</div>
 						<br><br>
 						
 						<div class="form-group row m-0 justify-content-end">

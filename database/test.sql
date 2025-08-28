@@ -97,3 +97,10 @@ ADD COLUMN is_published TINYINT NOT NULL DEFAULT 0;
 
 ALTER TABLE about
 ADD COLUMN is_published TINYINT NOT NULL DEFAULT 0;
+
+UPDATE section
+SET title = 'test title', content = 'test content'
+WHERE
+	project_id = 21
+	AND about_id = NULL
+	AND id = 14;
