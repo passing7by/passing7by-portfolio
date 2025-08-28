@@ -56,7 +56,7 @@ public class FileManager {
 	 */
 	public String getExtension(String oriFileName) throws Exception {
 		
-		return oriFileName.substring(oriFileName.lastIndexOf("."));
+		return oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
 	}
 	
 	/**
