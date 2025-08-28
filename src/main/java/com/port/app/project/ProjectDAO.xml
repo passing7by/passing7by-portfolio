@@ -124,19 +124,34 @@
 	<update id="updateProjectNote" parameterType="ProjectNoteVO">
 		UPDATE project_note
 		SET title = #{title}, url = #{url}
-		WHERE project_id = #{projectId}
+		WHERE
+			project_id = #{projectId}
+			AND id = #{id}
 	</update>
 	
 	<update id="updateSection" parameterType="SectionVO">
 		UPDATE section
 		SET title = #{title}, content = #{content}
-		WHERE project_id = #{projectId} AND about_id = #{aboutId}
+		<where>
+			<choose>
+				<when test="projectId != null and aboutId == null">
+					project_id = #{projectId}
+				</when>
+				<when test="projectId == null and aboutId != null">
+					about_id = #{aboutId}
+				</when>
+			</choose>
+		</where>
+			AND id = #{id}
 	</update>
 	
 	<update id="updateFile" parameterType="FileVO">
 		UPDATE image
 		SET ori_name = #{oriName}, saved_name = #{savedName}, extension = #{extension}
-		WHERE project_id = #{projectId} AND about_id = #{aboutId}
+		WHERE
+			project_id = #{projectId}
+			AND about_id = #{aboutId}
+			AND id = #{id}
 	</update>
 	
 	

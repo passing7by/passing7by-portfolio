@@ -33,6 +33,7 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
 				if(pn.getTitle() == null) continue;
 				
 				pn.setProjectId(projectVO.getId());
@@ -43,6 +44,7 @@ public class ProjectService {
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
 				if (s.getTitle() == null) continue;
 				
 				s.setProjectId(projectVO.getId());
@@ -65,20 +67,28 @@ public class ProjectService {
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {
 			for (ProjectNoteVO pn : pnList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
 				if(pn.getTitle() == null) continue;
 				
 				pn.setProjectId(projectVO.getId());
-				result = projectDAO.updateProjectNote(pn);
+				
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(pn.getId() != null) result = projectDAO.updateProjectNote(pn);
+				else result = projectDAO.insertProjectNote(pn);
 			}
 		}
 		
 		List<SectionVO> sList = projectVO.getSectionVOs();
 		if (sList != null && result > 0) {
 			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
 				if (s.getTitle() == null) continue;
 				
 				s.setProjectId(projectVO.getId());
-				result = projectDAO.updateSection(s);
+
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(s.getId() != null) result = projectDAO.updateSection(s);
+				else result = projectDAO.insertSection(s);
 			}
 		}
 		

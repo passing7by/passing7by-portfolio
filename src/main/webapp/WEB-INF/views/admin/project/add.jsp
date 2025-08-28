@@ -157,22 +157,23 @@
 								<c:forEach items="${vo.projectNoteVOs }" varStatus="i" var="pn">
 								
 									<div class="project-note-row">
+										<input type="hidden" name="projectNoteVOs[${i.index }].id" value="${pn.id }">
 										<div class="form-group row title-fg-row">
 											<label class="col-lg-2 col-form-label title-label"
-												for="projectNoteVOs[${i }].title">제목<span
+												for="projectNoteVOs[${i.index }].title">제목<span
 												class="text-danger">*</span></label>
 											<div class="col-lg-7">
 												<input class="form-control title-input" type="text"
-													name="projectNoteVOs[${i }].title" value="${pn.title }">
+													name="projectNoteVOs[${i.index }].title" value="${pn.title }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-lg-2 col-form-label content-label"
-												for="projectNoteVOs[${i }].url">링크<span
+												for="projectNoteVOs[${i.index }].url">링크<span
 												class="text-danger">*</span></label>
 											<div class="col-lg-7 content-input-div">
 												<input class="form-control content-input" type="text"
-													name="projectNoteVOs[${i }].url" value="${pn.url }">
+													name="projectNoteVOs[${i.index }].url" value="${pn.url }">
 											</div>
 										</div>
 										<div class="row m-0 justify-content-end">
@@ -197,22 +198,23 @@
 								<c:forEach items="${vo.sectionVOs }" varStatus="i" var="s">
 
 									<div class="section-row">
+										<input type="hidden" name="sectionVOs[${i.index }].id" value="${s.id }">
 										<div class="form-group row title-fg-row">
 											<label class="col-lg-2 col-form-label title-label"
-												for="sectionVOs[${i }].title">제목<span
+												for="sectionVOs[${i.index }].title">제목<span
 												class="text-danger">*</span></label>
 											<div class="col-lg-7">
 												<input class="form-control title-input" type="text"
-													name="sectionVOs[${i }].title" value="${s.title }">
+													name="sectionVOs[${i.index }].title" value="${s.title }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-lg-2 col-form-label content-label"
-												for="sectionVOs[${i }].content">내용<span
+												for="sectionVOs[${i.index }].content">내용<span
 												class="text-danger">*</span></label>
 											<div class="content-input-div col-lg-10">
 												<textarea class="form-control content-textarea"
-													name="sectionVOs[${i }].content" rows="7">${s.content }</textarea>
+													name="sectionVOs[${i.index }].content" rows="7">${s.content }</textarea>
 											</div>
 										</div>
 										<div class="row m-0 justify-content-end">

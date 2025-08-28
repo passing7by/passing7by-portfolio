@@ -6,7 +6,7 @@
 
 function createNewRow() {
       const newRow = document.createElement('div');
-
+			
       const newFormGroup1 = document.createElement('div'); // 제목
       const newFormGroup2 = document.createElement('div'); // 내용
       newFormGroup1.className = 'form-group row title-fg-row';
@@ -87,9 +87,13 @@ const fileBox = document.querySelector('#file-box');
 
 let dels;
 
-let projectNoteCnt = 0;
-let sectionCnt = 0;
-let fileCnt = 0;
+let projectNoteCnt = projectNoteBox.childElementCount;
+let sectionCnt = sectionBox.childElementCount;
+let fileCnt = fileBox.childElementCount;
+
+console.log("projectNoteCnt", projectNoteCnt);
+console.log("sectionCnt", sectionCnt);
+console.log("fileCnt", fileCnt);
 
 addBtns.forEach(a => {
   a.addEventListener('click', function () {
@@ -118,6 +122,7 @@ addBtns.forEach(a => {
 
       projectNoteBox.appendChild(newRow);
 
+			console.log(`projectNote[${projectNoteCnt}] 추가함`);
       projectNoteCnt++;
       
     } else if (a.id === 'add-section') {
@@ -149,6 +154,7 @@ addBtns.forEach(a => {
 
       sectionBox.appendChild(newRow);
 
+			console.log(`section[${sectionCnt}] 추가함`);
       sectionCnt++;
       
     } else if (a.id === 'add-file') {
@@ -174,6 +180,7 @@ addBtns.forEach(a => {
 
       fileBox.appendChild(newRow);
 
+			console.log(`file[${fileCnt}] 추가함`);
       fileCnt++;
     }
 		
