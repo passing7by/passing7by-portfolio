@@ -74,18 +74,11 @@ public class ProjectAdminController {
 	}
 	
 	@PostMapping("add") // TODO session의 adminId 사용
-	public String add(ProjectVO projectVO, MultipartFile[] attches) throws Exception {
+	public String add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		log.warn(projectVO.toString());
-		log.warn(attches.toString());
+		log.warn(attaches.toString());
 		
-//		for (MultipartFile m : attches) {
-//			log.warn(m.getContentType()); // image/png
-//			log.warn(m.getName()); // fileVO
-//			log.warn(m.getOriginalFilename()); // HbTnAdtcVYg5KfSIqOvL1aGq5hiiJK1NjL8OTOSGLs1dnr6plBnNFGH2p1FE9Zip1OrE2sajLPqI2if387ywNg.png
-//			log.warn(m.getSize() + ""); // 17366
-//		}
-		
-		int result = projectService.add(projectVO, attches);
+		int result = projectService.add(projectVO, attaches);
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}
@@ -106,8 +99,11 @@ public class ProjectAdminController {
 	}
 	
 	@PostMapping("update") // TODO session의 adminId 사용
-	public String update(ProjectVO projectVO) throws Exception {
-		int result = projectService.update(projectVO);
+	public String update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
+		log.warn(projectVO.toString());
+		log.warn(attaches.toString());
+		
+		int result = projectService.update(projectVO, attaches);
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
 	}
