@@ -131,4 +131,17 @@ public class ProjectService {
 	public int delete(ProjectVO projectVO) throws Exception {
 		return projectDAO.delete(projectVO);
 	}
+	
+	public int deleteFile(FileVO fileVO) throws Exception {
+		// 1. 파일 정보 조회
+		fileVO = projectDAO.selectFile(fileVO);
+		
+		// 1. HHD에서 삭제
+		fileManager.deleteFile(upload  + project, fileVO);
+		
+		// 2. DB에서 삭제
+		int result = projectDAO.deleteFile(fileVO);
+		
+		return result;
+	}
 }

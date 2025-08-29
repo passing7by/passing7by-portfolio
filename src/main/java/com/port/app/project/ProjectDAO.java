@@ -23,4 +23,12 @@ public interface ProjectDAO {
 	int updateFile(FileVO fileVO) throws Exception;
 	
 	int delete(ProjectVO projectVO) throws Exception;
+	
+	
+	// ------------ File
+	
+	FileVO selectFile(FileVO fileVO) throws Exception;
+	int deleteFile(FileVO fileVO) throws Exception;
+	
+	
 }

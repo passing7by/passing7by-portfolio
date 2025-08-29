@@ -69,4 +69,12 @@ public class FileManager {
 		
 		return oriFileName.substring(0, oriFileName.lastIndexOf("."));
 	}
+	
+	/**
+	 * 
+	 */
+	public boolean deleteFile(String filePath, FileVO fileVO) throws Exception {
+		File file = new File(filePath, fileVO.getSavedName() + "." + fileVO.getExtension());
+		return file.delete();
+	}
 }

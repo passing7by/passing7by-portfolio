@@ -230,7 +230,6 @@
 						</div>
 						<hr>
 						
-						<!-- INFO 파일 기능 구현하기 전까지는 일단 건드리지 마라.... -->
 						<div class="row m-0 justify-content-between">
 							<h5>첨부 이미지</h5>
 							<button class="btn btn-normal m-b-z30 add-btn" id="add-file" type="button">추가</button>
@@ -241,7 +240,7 @@
 							<c:if test="${not empty vo.fileVOs }">
 							<!-- TODO 버튼 눌렀을 때 삭제되도록 구현 -->
  								<c:forEach items="${vo.fileVOs }" varStatus="i" var="f">
-									<button class="deleteFile mb-1 btn" type="button" data-file-num = "${f.id}">${f.oriName}</button>
+									<button class="delFile mb-1 btn" type="button" data-file-id = "${f.id}">${f.oriName}</button>
 								</c:forEach>
 							</c:if>
 							
