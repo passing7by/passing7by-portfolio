@@ -200,3 +200,45 @@ addBtns.forEach(a => {
   });
 });
 
+
+// 폼 삭제
+
+const delFileBtns = document.querySelectorAll(".delFile");
+
+delFileBtns.forEach((d) => {
+  d.addEventListener('click', function() {
+    // 0. 확인창을 띄움: '정말 삭제하시겠습니까? 파일은 즉시 삭제되며 삭제한 파일은 되돌릴 수 없습니다.'
+    // TODO sweet alert로 변경
+    const isConfirmed = confirm('정말 삭제하시겠습니까? 파일은 즉시 삭제되며 삭제한 파일은 되돌릴 수 없습니다.');
+    if(!isConfirmed) return; // 만약 '취소'를 눌렀다면 삭제 로직을 진행하지 않음
+    
+    // 1. 버튼에 해당하는 fileNum값을 받아옴
+    const fileId = d.getAttribute('data-file-id');
+    
+    let param = new URLSearchParams();
+		param.append("id", fileId);
+
+    // 2. 서버에 post로 파일 삭제 요청
+    const adminUrl = window.location.href.split('/')[3];
+
+    fetch(`/${adminUrl}/project/deleteFile`, {
+      method: 'post',
+      body: param
+    })
+    .then(r => r.text())
+    .then(r => {
+      r = r.trim();
+			
+			if(r === '1') console.log('파일 삭제 완료');
+      else console.log('파일 삭제 실패');
+    })
+    .catch(e => {
+      console.log('error');
+    })
+    .finally(console.log('finally'))
+    ;
+
+    // 3. 화면에서 요소를 제거
+    d.remove();
+  });
+});
