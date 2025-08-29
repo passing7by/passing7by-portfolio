@@ -4,7 +4,7 @@
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.port.app.project.ProjectDAO">
+<mapper namespace="com.port.app.content.project.ProjectDAO">
 	<resultMap type="ProjectVO" id="detailResult">
 		<id column="p_id" property="id"/>
 		

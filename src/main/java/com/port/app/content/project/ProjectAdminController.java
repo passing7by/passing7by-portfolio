@@ -1,4 +1,4 @@
-package com.port.app.project;
+package com.port.app.content.project;
 
 import java.util.List;
 
@@ -80,8 +80,8 @@ public class ProjectAdminController {
 	
 	@PostMapping("add") // TODO session의 adminId 사용
 	public String add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-		log.warn(projectVO.toString());
-		log.warn(attaches.toString());
+		log.warn("{}", projectVO);
+		log.warn("{}", attaches);
 		
 		int result = projectService.add(projectVO, attaches);
 		
@@ -105,8 +105,8 @@ public class ProjectAdminController {
 	
 	@PostMapping("update") // TODO session의 adminId 사용
 	public String update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-		log.warn(projectVO.toString());
-		log.warn(attaches.toString());
+		log.warn("{}", projectVO);
+		log.warn("{}", attaches);
 		
 		int result = projectService.update(projectVO, attaches);
 		

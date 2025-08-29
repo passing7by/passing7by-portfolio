@@ -1,4 +1,4 @@
-package com.port.app.project;
+package com.port.app.content.project;
 
 import java.util.List;
 
@@ -11,10 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
+import com.port.app.content.ContentService;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProjectService {
+public class ProjectService implements ContentService<ProjectVO> {
 	
 	@Value("${app.upload}")
 	private String upload;
@@ -28,14 +29,17 @@ public class ProjectService {
 	@Autowired
 	private FileManager fileManager;
 	
+	@Override
 	public List<ProjectVO> listForAdmin(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectListForAdmin(projectVO);
 	}
 	
+	@Override
 	public ProjectVO detail(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectDetailForAdmin(projectVO);
 	}
 	
+	@Override
 	public int add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.insertProject(projectVO);
 		
@@ -79,6 +83,7 @@ public class ProjectService {
 		return result;
 	}
 	
+	@Override
 	public int update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.updateProject(projectVO);
 		
@@ -128,10 +133,12 @@ public class ProjectService {
 		return result;
 	}
 	
+	@Override
 	public int delete(ProjectVO projectVO) throws Exception {
 		return projectDAO.delete(projectVO);
 	}
 	
+	@Override
 	public int deleteFile(FileVO fileVO) throws Exception {
 		// 1. 파일 정보 조회
 		fileVO = projectDAO.selectFile(fileVO);
