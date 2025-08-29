@@ -75,8 +75,8 @@
 										/${adminUrl}/project/detail?id=id값&adminId=adminId값 을 입력하여 테스트할 것. --%>
 										<td>${not empty vo.startDate ? vo.startDate : '-' }</td>
 										<td>${not empty vo.endDate ? vo.endDate : '-' }</td>
-										<td>${vo.formatedRegDate }</td>
-										<td>${not empty vo.modDate ? vo.formatedModDate : '-' }</td> <!-- INFO vo.formatedModDate 로 조건을 검사할 수 없음... 왜? -->
+										<td>${vo.formattedRegDate }</td>
+										<td>${not empty vo.modDate ? vo.formattedModDate : '-' }</td> <!-- INFO vo.formatedModDate 로 조건을 검사할 수 없음... 왜? -->
 										<td><span class="badge ${vo.isPublished eq true ? 'badge-primary' : 'badge-success' } px-2">
 											${vo.isPublished eq true ? '공개' : '비공개' }
 										</span></td>
