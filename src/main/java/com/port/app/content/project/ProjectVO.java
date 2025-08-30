@@ -26,11 +26,7 @@ public class ProjectVO extends ContentVO {
 	private String githubUrl;
 	private String demoUrl;
 	private String pptUrl;
-	
-	private Integer rowNumber;
 
 	private List<ProjectNoteVO> projectNoteVOs;
-	private List<SectionVO> sectionVOs;
-	private List<FileVO> fileVOs;
 	
 }

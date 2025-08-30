@@ -2,8 +2,11 @@ package com.port.app.content;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import com.port.app.common.FileVO;
 import com.port.app.common.FormatDate;
+import com.port.app.common.SectionVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +24,11 @@ public class ContentVO implements FormatDate {
 	private LocalDateTime modDate;
 	private Boolean isPublished;
 	private Boolean isDeleted;
+	
+	private Integer rowNumber;
+	
+	private List<SectionVO> sectionVOs;
+	private List<FileVO> fileVOs;
 	
 	@Override
 	public String getFormattedRegDate() {
