@@ -1,5 +1,7 @@
 package com.port.app.content.about;
 
+import java.util.List;
+
 import com.port.app.content.ContentVO;
 
 import lombok.Getter;
@@ -15,5 +17,7 @@ public class AboutVO extends ContentVO {
 	private String githubUrl;
 	private String blogUrl;
 	private String emailUrl;
+	
+	private List<SkillVO> skillVOs;
 	
 }
