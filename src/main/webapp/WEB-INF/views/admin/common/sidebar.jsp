@@ -12,6 +12,7 @@
 				<ul aria-expanded="false">
 					<li><a href="/${adminUrl }">Home</a></li>
 					<li><a href="/${adminUrl }/project/list?isDeleted=0">Project</a></li>
+					<li><a href="/${adminUrl }/about/list?isDeleted=0">About</a></li>
 				</ul>
 			</li>
 			<li class="mega-menu mega-menu-sm"><a class="has-arrow"
