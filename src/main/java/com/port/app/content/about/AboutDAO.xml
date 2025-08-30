@@ -5,32 +5,30 @@
 
 
 <mapper namespace="com.port.app.content.about.AboutDAO">
-<!-- 	<resultMap type="ProjectVO" id="detailResult">
-		<id column="p_id" property="id"/>
+ 	<resultMap type="AboutVO" id="detailResult">
+		<id column="a_id" property="id"/>
 		
 		<result column="admin_id" property="adminId"/>
-		<result column="p_title" property="title"/>
-		<result column="summary" property="summary"/>
-		<result column="team_size" property="teamSize"/>
-		<result column="key_features" property="keyFeatures"/>
-		<result column="tech_stack" property="techStack"/>
-		<result column="start_date" property="startDate"/>
-		<result column="end_date" property="endDate"/>
-		<result column="github_url" property="githubUrl"/>
-		<result column="demo_url" property="demoUrl"/>
-		<result column="ppt_url" property="pptUrl"/>
+		<result column="a_title" property="title"/>
 		<result column="reg_date" property="regDate"/>
 		<result column="mod_date" property="modDate"/>
 		<result column="is_published" property="isPublished"/>
 		<result column="is_deleted" property="isDeleted"/>
-		
+
 		<result column="row_number" property="rowNumber"/>
 		
-		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
-			<id column="pn_id" property="id"/>
+		<!-- About -->
+		<result column="name" property="name"/>
+		<result column="github_url" property="githubUrl"/>
+		<result column="blog_url" property="blogUrl"/>
+		<result column="email_url" property="emailUrl"/>
+		<!--  -->
+		
+		<collection property="skillVOs" javaType="java.util.List" ofType="SkillVO">
+			<id column="sk_id" property="id"/>
 			
-			<result column="pn_title" property="title"/>
-			<result column="url" property="url"/>
+			<result column="sk_name" property="name"/>
+			<result column="description" property="description"/>
 		</collection>
 		
 		<collection property="sectionVOs" javaType="java.util.List" ofType="SectionVO">
@@ -47,7 +45,7 @@
 			<result column="saved_name" property="savedName"/>
 			<result column="extension" property="extension"/>
 		</collection>
-	</resultMap> -->
+	</resultMap> 
 	
 	<!-- INFO 개발 편의를 위해 임시로 where절과 values절의 admin_id값은 모두 1로 설정해 놓음 -->
 	
@@ -60,24 +58,25 @@
 			AND is_deleted = #{isDeleted}
 	</select>
 	
-<!-- 	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
+ 	<select id="selectDetailForAdmin" parameterType="AboutVO" resultMap="detailResult">
 		SELECT
-			p.*, s.*, i.*, pn.*
-			,p.id AS p_id
+			a.*, s.*, i.*, sk.*
+			,a.id AS a_id
 			,s.id AS s_id
 			,i.id AS i_id
-			,pn.id AS pn_id
-			,p.title AS p_title
+			,sk.id AS sk_id
+			,a.title AS a_title
 			,s.title AS s_title
-			,pn.title AS pn_title
-		FROM (SELECT * FROM project WHERE admin_id = 1 AND id = #{id}) p
-		LEFT JOIN section s ON (p.id = s.project_id)
-		LEFT JOIN image i ON (p.id = i.project_id)
-		LEFT JOIN project_note pn ON (p.id = pn.project_id)
+			,a.name AS a_name
+			,sk.name AS sk_name
+		FROM (SELECT * FROM about WHERE admin_id = 1 AND id = #{id}) a
+		LEFT JOIN section s ON (a.id = s.about_id)
+		LEFT JOIN image i ON (a.id = i.about_id)
+		LEFT JOIN skill sk ON (a.id = sk.about_id)
 	</select>
 	
 	
-	<insert id="insertProject" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
+<!--	<insert id="insertProject" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO project
 			(admin_id, title, summary, team_size, key_features, tech_stack
 			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 

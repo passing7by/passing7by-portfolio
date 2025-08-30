@@ -53,20 +53,20 @@ public class AboutAdminController {
 		return "admin/about/list";
 	}
 	
-//	@GetMapping("detail") // TODO session의 adminId 사용
-//	public String detail(ProjectVO projectVO, Model model) throws Exception {
-//		ProjectVO result = projectService.detail(projectVO); // id로 조회
-//		System.err.println(result);
-//		
-//		String url = "redirect:./list?isDeleted=0"; // 조회된 데이터가 없으면 list 페이지로 redirect
-//		if(result != null) {
-//			result.setAdminId(null); // 데이터를 내보내기 전 adminId값 null로 설정
-//			model.addAttribute("vo", result);
-//			url = "admin/project/detail";
-//		}
-//		
-//		return url;
-//	}
+	@GetMapping("detail") // TODO session의 adminId 사용
+	public String detail(AboutVO aboutVO, Model model) throws Exception {
+		AboutVO result = aboutService.detail(aboutVO); // id로 조회
+		log.warn("{}", result);
+		
+		String url = "redirect:./list?isDeleted=0"; // 조회된 데이터가 없으면 list 페이지로 redirect
+		if(result != null) {
+			result.setAdminId(null); // 데이터를 내보내기 전 adminId값 null로 설정
+			model.addAttribute("vo", result);
+			url = "admin/about/detail";
+		}
+		
+		return url;
+	}
 //	
 //	@GetMapping("add")
 //	public String add(Model model, HttpServletRequest req) throws Exception {

@@ -35,9 +35,8 @@ public class AboutService implements ContentService<AboutVO> {
 	}
 
 	@Override
-	public AboutVO detail(AboutVO contentVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public AboutVO detail(AboutVO aboutVO) throws Exception {
+		return aboutDAO.selectDetailForAdmin(aboutVO);
 	}
 
 	@Override
