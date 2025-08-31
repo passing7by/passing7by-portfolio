@@ -1,6 +1,6 @@
 package com.port.app.common;
 
 public interface FormatDate {
-	String getFormatedRegDate();
-	String getFormatedModDate();
+	String getFormattedRegDate();
+	String getFormattedModDate();
 }

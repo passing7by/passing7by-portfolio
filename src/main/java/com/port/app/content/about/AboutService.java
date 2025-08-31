@@ -1,4 +1,4 @@
-package com.port.app.project;
+package com.port.app.content.about;
 
 import java.util.List;
 
@@ -11,31 +11,115 @@ import org.springframework.web.multipart.MultipartFile;
 import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
+import com.port.app.content.ContentService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProjectService {
+public class AboutService implements ContentService<AboutVO> {
 	
 	@Value("${app.upload}")
 	private String upload;
 	
-	@Value("${cat.project}")
-	private String project;
+	@Value("${cat.about}")
+	private String about;
 	
 	@Autowired
-	private ProjectDAO projectDAO;
+	private AboutDAO aboutDAO;
 	
 	@Autowired
 	private FileManager fileManager;
+
+	@Override
+	public List<AboutVO> listForAdmin(AboutVO aboutVO) throws Exception {
+		return aboutDAO.selectListForAdmin(aboutVO);
+	}
+
+	@Override
+	public AboutVO detail(AboutVO aboutVO) throws Exception {
+		return aboutDAO.selectDetailForAdmin(aboutVO);
+	}
+
+	@Override
+	public int add(AboutVO aboutVO, MultipartFile[] attaches) throws Exception {
+		int result = aboutDAO.insertContent(aboutVO);
+		
+		// about 테이블에 데이터가 들어가지 않았다면 
+		// skill, section, image 테이블에도 데이터가 들어갈 필요가 없기 때문에 바로 리턴
+		if(result == 0) return result;
+		
+		List<SkillVO> skList = aboutVO.getSkillVOs();
+		if (skList != null && result > 0) {
+			for (SkillVO sk : skList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
+				if(sk.getName() == null) continue;
+				
+				sk.setAboutId(aboutVO.getId());
+				result = aboutDAO.insertSkill(sk);
+			}
+		}
+		
+		List<SectionVO> sList = aboutVO.getSectionVOs();
+		if (sList != null && result > 0) {
+			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 insert하지 않음
+				if (s.getTitle() == null) continue;
+				
+				s.setAboutId(aboutVO.getId());
+				result = aboutDAO.insertSection(s);
+			}
+		}
+		
+		if (attaches != null && attaches.length > 0) {
+			for (MultipartFile a : attaches) {
+				log.warn("{}", a.getSize());
+				// a에 실질적으로 파일이 들어있지 않다면 파일 저장 로직을 진행하지 않음
+				if (a.getSize() <= 0) continue;
+				
+				// 1. file을 HDD에 저장하고 saveName을 받아옴
+				FileVO fileVO = fileManager.saveFile(upload + about, a);
+				fileVO.setAboutId(aboutVO.getId());
+				
+				// 2. DB에 데이터 저장
+				result = aboutDAO.insertFile(fileVO);
+			}
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int update(AboutVO contentVO, MultipartFile[] attaches) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete(AboutVO contentVO) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteFile(FileVO fileVO) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
+	/*
+	@Override
 	public List<ProjectVO> listForAdmin(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectListForAdmin(projectVO);
 	}
 	
+	@Override
 	public ProjectVO detail(ProjectVO projectVO) throws Exception {
 		return projectDAO.selectDetailForAdmin(projectVO);
 	}
 	
+	@Override
 	public int add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.insertProject(projectVO);
 		
@@ -79,6 +163,7 @@ public class ProjectService {
 		return result;
 	}
 	
+	@Override
 	public int update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
 		int result = projectDAO.updateProject(projectVO);
 		
@@ -128,10 +213,12 @@ public class ProjectService {
 		return result;
 	}
 	
+	@Override
 	public int delete(ProjectVO projectVO) throws Exception {
 		return projectDAO.delete(projectVO);
 	}
 	
+	@Override
 	public int deleteFile(FileVO fileVO) throws Exception {
 		// 1. 파일 정보 조회
 		fileVO = projectDAO.selectFile(fileVO);
@@ -144,4 +231,5 @@ public class ProjectService {
 		
 		return result;
 	}
+	*/
 }

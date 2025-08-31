@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.port.app.content.project.ProjectDAO">
+	<resultMap type="ProjectVO" id="detailResult">
+		<id column="p_id" property="id"/>
+		
+		<result column="admin_id" property="adminId"/>
+		<result column="p_title" property="title"/>
+		<result column="summary" property="summary"/>
+		<result column="team_size" property="teamSize"/>
+		<result column="key_features" property="keyFeatures"/>
+		<result column="tech_stack" property="techStack"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="github_url" property="githubUrl"/>
+		<result column="demo_url" property="demoUrl"/>
+		<result column="ppt_url" property="pptUrl"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="mod_date" property="modDate"/>
+		<result column="is_published" property="isPublished"/>
+		<result column="is_deleted" property="isDeleted"/>
+		
+		<result column="row_number" property="rowNumber"/>
+		
+		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
+			<id column="pn_id" property="id"/>
+			
+			<result column="pn_title" property="title"/>
+			<result column="url" property="url"/>
+		</collection>
+		
+		<collection property="sectionVOs" javaType="java.util.List" ofType="SectionVO">
+			<id column="s_id" property="id"/>
+			
+			<result column="s_title" property="title"/>
+			<result column="content" property="content"/>
+		</collection>
+		
+		<collection property="fileVOs" javaType="java.util.List" ofType="FileVO">
+			<id column="i_id" property="id"/>
+			
+			<result column="ori_name" property="oriName"/>
+			<result column="saved_name" property="savedName"/>
+			<result column="extension" property="extension"/>
+		</collection>
+	</resultMap>
+	
+	<!-- INFO 개발 편의를 위해 임시로 where절과 values절의 admin_id값은 모두 1로 설정해 놓음 -->
+	
+	<select id="selectListForAdmin" parameterType="ProjectVO" resultType="ProjectVO">
+		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) `row_number`
+			, id, title, start_date, end_date, reg_date, mod_date, is_published
+		FROM project
+		WHERE
+			admin_id = 1
+			AND is_deleted = #{isDeleted}
+	</select>
+	
+	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
+		SELECT
+			p.*, s.*, i.*, pn.*
+			,p.id AS p_id
+			,s.id AS s_id
+			,i.id AS i_id
+			,pn.id AS pn_id
+			,p.title AS p_title
+			,s.title AS s_title
+			,pn.title AS pn_title
+		FROM (SELECT * FROM project WHERE admin_id = 1 AND id = #{id}) p
+		LEFT JOIN section s ON (p.id = s.project_id)
+		LEFT JOIN image i ON (p.id = i.project_id)
+		LEFT JOIN project_note pn ON (p.id = pn.project_id)
+	</select>
+	
+	
+	<insert id="insertContent" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO project
+			(admin_id, title, summary, team_size, key_features, tech_stack
+			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 
+		VALUES
+			(1, #{title}, #{summary}, #{teamSize}, #{keyFeatures}, #{techStack}
+			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl}, #{isPublished});
+	</insert>
+	
+	<insert id="insertProjectNote" parameterType="ProjectNoteVO">
+		INSERT project_note (project_id, title, url)
+		VALUES (#{projectId}, #{title}, #{url})
+	</insert>
+	
+	<insert id="insertSection" parameterType="SectionVO">
+		INSERT section (project_id, about_id, title, content)
+		VALUES (#{projectId}, #{aboutId}, #{title}, #{content})
+	</insert>
+	
+	<insert id="insertFile" parameterType="FileVO">
+		INSERT image (project_id, about_id, ori_name, saved_name, extension)
+		VALUES (#{projectId}, #{aboutId}, #{oriName}, #{savedName}, #{extension})
+	</insert>
+	
+	
+	<update id="updateContent" parameterType="ProjectVO">
+		UPDATE project
+		SET
+			title = #{title}
+			,summary = #{summary}
+			,team_size = #{teamSize}
+			,key_features = #{keyFeatures}
+			,tech_stack = #{techStack}
+			,start_date = #{startDate}
+			,end_date = #{endDate}
+			,github_url = #{githubUrl}
+			,demo_url = #{demoUrl}
+			,ppt_url = #{pptUrl}
+			,is_published = #{isPublished}
+		WHERE
+			id = #{id}
+			AND admin_id = 1
+	</update>
+	
+	<update id="updateProjectNote" parameterType="ProjectNoteVO">
+		UPDATE project_note
+		SET title = #{title}, url = #{url}
+		WHERE
+			project_id = #{projectId}
+			AND id = #{id}
+	</update>
+	
+	<update id="updateSection" parameterType="SectionVO">
+		UPDATE section
+		SET title = #{title}, content = #{content}
+		<where>
+			<choose>
+				<when test="projectId != null and aboutId == null">
+					project_id = #{projectId}
+				</when>
+				<when test="projectId == null and aboutId != null">
+					about_id = #{aboutId}
+				</when>
+			</choose>
+		</where>
+			AND id = #{id}
+	</update>
+	
+	<update id="updateFile" parameterType="FileVO">
+		UPDATE image
+		SET ori_name = #{oriName}, saved_name = #{savedName}, extension = #{extension}
+		WHERE
+			project_id = #{projectId}
+			AND about_id = #{aboutId}
+			AND id = #{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="ProjectVO">
+		UPDATE project
+		SET
+			is_published = 0
+			,is_deleted = 1
+		WHERE
+			id = #{id}
+			AND admin_id = 1;
+	</delete>
+	
+	
+	<!-- File -->
+	
+	<select id="selectFile" parameterType="FileVO">
+		SELECT id, saved_name, extension
+		FROM image
+		WHERE id = #{id}
+	</select>
+	
+	<delete id="deleteFile" parameterType="FileVO">
+		DELETE FROM image
+		WHERE id = #{id}
+	</delete>
+</mapper>

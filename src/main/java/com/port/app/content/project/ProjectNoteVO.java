@@ -1,4 +1,4 @@
-package com.port.app.project;
+package com.port.app.content.project;
 
 import lombok.Getter;
 import lombok.Setter;

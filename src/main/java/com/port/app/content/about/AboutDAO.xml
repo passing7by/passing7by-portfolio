@@ -4,33 +4,31 @@
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.port.app.project.ProjectDAO">
-	<resultMap type="ProjectVO" id="detailResult">
-		<id column="p_id" property="id"/>
+<mapper namespace="com.port.app.content.about.AboutDAO">
+ 	<resultMap type="AboutVO" id="detailResult">
+		<id column="a_id" property="id"/>
 		
 		<result column="admin_id" property="adminId"/>
-		<result column="p_title" property="title"/>
-		<result column="summary" property="summary"/>
-		<result column="team_size" property="teamSize"/>
-		<result column="key_features" property="keyFeatures"/>
-		<result column="tech_stack" property="techStack"/>
-		<result column="start_date" property="startDate"/>
-		<result column="end_date" property="endDate"/>
-		<result column="github_url" property="githubUrl"/>
-		<result column="demo_url" property="demoUrl"/>
-		<result column="ppt_url" property="pptUrl"/>
+		<result column="a_title" property="title"/>
 		<result column="reg_date" property="regDate"/>
 		<result column="mod_date" property="modDate"/>
 		<result column="is_published" property="isPublished"/>
 		<result column="is_deleted" property="isDeleted"/>
-		
+
 		<result column="row_number" property="rowNumber"/>
 		
-		<collection property="projectNoteVOs" javaType="java.util.List" ofType="ProjectNoteVO">
-			<id column="pn_id" property="id"/>
+		<!-- About -->
+		<result column="name" property="name"/>
+		<result column="github_url" property="githubUrl"/>
+		<result column="blog_url" property="blogUrl"/>
+		<result column="email_url" property="emailUrl"/>
+		<!--  -->
+		
+		<collection property="skillVOs" javaType="java.util.List" ofType="SkillVO">
+			<id column="sk_id" property="id"/>
 			
-			<result column="pn_title" property="title"/>
-			<result column="url" property="url"/>
+			<result column="sk_name" property="name"/>
+			<result column="description" property="description"/>
 		</collection>
 		
 		<collection property="sectionVOs" javaType="java.util.List" ofType="SectionVO">
@@ -47,48 +45,47 @@
 			<result column="saved_name" property="savedName"/>
 			<result column="extension" property="extension"/>
 		</collection>
-	</resultMap>
+	</resultMap> 
 	
 	<!-- INFO 개발 편의를 위해 임시로 where절과 values절의 admin_id값은 모두 1로 설정해 놓음 -->
 	
-	<select id="selectListForAdmin" parameterType="ProjectVO" resultType="ProjectVO">
+	<select id="selectListForAdmin" parameterType="AboutVO" resultType="AboutVO">
 		SELECT ROW_NUMBER() OVER(ORDER BY reg_date DESC) `row_number`
-			, id, title, start_date, end_date, reg_date, mod_date, is_published
-		FROM project
+			, id, title, reg_date, mod_date, is_published
+		FROM about
 		WHERE
 			admin_id = 1
 			AND is_deleted = #{isDeleted}
 	</select>
 	
-	<select id="selectDetailForAdmin" parameterType="ProjectVO" resultMap="detailResult">
+ 	<select id="selectDetailForAdmin" parameterType="AboutVO" resultMap="detailResult">
 		SELECT
-			p.*, s.*, i.*, pn.*
-			,p.id AS p_id
+			a.*, s.*, i.*, sk.*
+			,a.id AS a_id
 			,s.id AS s_id
 			,i.id AS i_id
-			,pn.id AS pn_id
-			,p.title AS p_title
+			,sk.id AS sk_id
+			,a.title AS a_title
 			,s.title AS s_title
-			,pn.title AS pn_title
-		FROM (SELECT * FROM project WHERE admin_id = 1 AND id = #{id}) p
-		LEFT JOIN section s ON (p.id = s.project_id)
-		LEFT JOIN image i ON (p.id = i.project_id)
-		LEFT JOIN project_note pn ON (p.id = pn.project_id)
+			,a.name AS a_name
+			,sk.name AS sk_name
+		FROM (SELECT * FROM about WHERE admin_id = 1 AND id = #{id}) a
+		LEFT JOIN section s ON (a.id = s.about_id)
+		LEFT JOIN image i ON (a.id = i.about_id)
+		LEFT JOIN skill sk ON (a.id = sk.about_id)
 	</select>
 	
 	
-	<insert id="insertProject" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO project
-			(admin_id, title, summary, team_size, key_features, tech_stack
-			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 
+	<insert id="insertContent" parameterType="AboutVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO about
+			(admin_id, name, title, github_url, blog_url, email_url, is_published) 
 		VALUES
-			(1, #{title}, #{summary}, #{teamSize}, #{keyFeatures}, #{techStack}
-			,#{startDate}, #{endDate}, #{githubUrl}, #{demoUrl}, #{pptUrl}, #{isPublished});
+			(1, #{name}, #{title}, #{githubUrl}, #{blogUrl}, #{emailUrl}, #{isPublished})
 	</insert>
 	
-	<insert id="insertProjectNote" parameterType="ProjectNoteVO">
-		INSERT project_note (project_id, title, url)
-		VALUES (#{projectId}, #{title}, #{url})
+	<insert id="insertSkill" parameterType="SkillVO">
+		INSERT INTO skill (about_id, name, description)
+		VALUES (#{aboutId}, #{name}, #{description})
 	</insert>
 	
 	<insert id="insertSection" parameterType="SectionVO">
@@ -102,7 +99,7 @@
 	</insert>
 	
 	
-	<update id="updateProject" parameterType="ProjectVO">
+<!--	<update id="updateProject" parameterType="ProjectVO">
 		UPDATE project
 		SET
 			title = #{title}
@@ -166,7 +163,7 @@
 	</delete>
 	
 	
-	<!-- File -->
+	File
 	
 	<select id="selectFile" parameterType="FileVO">
 		SELECT id, saved_name, extension
@@ -177,5 +174,5 @@
 	<delete id="deleteFile" parameterType="FileVO">
 		DELETE FROM image
 		WHERE id = #{id}
-	</delete>
+	</delete> -->
 </mapper>

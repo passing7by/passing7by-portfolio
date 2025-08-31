@@ -84,16 +84,19 @@ const addBtns = document.querySelectorAll('.add-btn');
 const projectNoteBox = document.querySelector('#project-note-box');
 const sectionBox = document.querySelector('#section-box');
 const fileBox = document.querySelector('#file-box');
+const skillBox = document.querySelector('#skill-box');
 
 let dels;
 
-let projectNoteCnt = projectNoteBox.childElementCount;
+let projectNoteCnt = projectNoteBox != null ?  projectNoteBox.childElementCount : 0;
 let sectionCnt = sectionBox.childElementCount;
 let fileCnt = fileBox.childElementCount;
+let skillCnt = skillBox != null ? skillBox.childElementCount : 0;
 
 console.log("projectNoteCnt", projectNoteCnt);
 console.log("sectionCnt", sectionCnt);
 console.log("fileCnt", fileCnt);
+console.log("skillCnt", skillCnt);
 
 addBtns.forEach(a => {
   a.addEventListener('click', function () {
@@ -182,6 +185,35 @@ addBtns.forEach(a => {
 
 			console.log(`file[${fileCnt}] 추가함`);
       fileCnt++;
+    } else if (a.id === 'add-skill') {
+      console.log('sk');
+      console.log('skillCnt: ', skillCnt);
+			
+			const newRow = createNewRow();
+      newRow.className = 'skill-row';
+
+      const titleLabel = newRow.querySelector('.title-label');
+      titleLabel.setAttribute('for', `skillVOs[${skillCnt}].name`);
+      titleLabel.prepend('이름');
+
+      const titleInput = newRow.querySelector('.title-input');
+      titleInput.type = 'text';
+      titleInput.setAttribute('name', `skillVOs[${skillCnt}].name`);
+
+      const contentLabel = newRow.querySelector('.content-label');
+      contentLabel.setAttribute('for', `skillVOs[${skillCnt}].description`);
+      contentLabel.prepend('설명');
+
+      const contentInput = newRow.querySelector('.content-input');
+      contentInput.type = 'text';
+      contentInput.setAttribute('name', `skillVOs[${skillCnt}].description`);
+      newRow.querySelector('.content-textarea').remove();
+
+      skillBox.appendChild(newRow);
+
+			console.log(`skill[${skillCnt}] 추가함`);
+      skillCnt++;
+
     }
 		
 		// 폼 삭제

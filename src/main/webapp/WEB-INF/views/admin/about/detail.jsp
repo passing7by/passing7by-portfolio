@@ -50,29 +50,12 @@
 								</span>&nbsp;
 								${vo.title }
 							</h3>
-							<p class="text-muted">${vo.summary ne null ? vo.summary : '-' }</p>
+							<p class="text-muted">${vo.name}</p>
 						</div>
 					</div>
 					
 					<div class="media media-reply">
 						<div class="media-body">
-						
-							<h5 class="m-b-5 p-t-15">주요 기능 소개</h5>
-							<p>${vo.keyFeatures ne null ? vo.keyFeatures : '-' }</p>
-							<hr>
-							
-							<h5 class="m-b-5 p-t-15">팀 규모</h5>
-							<p>${vo.teamSize ne null ? vo.teamSize : '-' }인</p>
-						
-							<h5 class="m-b-5 p-t-15">사용 기술</h5>
-							<p>${vo.techStack ne null ? vo.techStack : '-' }</p>
-						
-							<h5 class="m-b-5 p-t-15">시작일</h5>
-							<p>${vo.startDate ne null ? vo.startDate : '-' }</p>
-						
-							<h5 class="m-b-5 p-t-15">종료일</h5>
-							<p>${vo.endDate ne null ? vo.endDate : '-' }</p>
-							<hr>
 							
 							<h5 class="m-b-5 p-t-15">깃허브 링크</h5>
 							<c:choose>
@@ -84,20 +67,20 @@
 								</c:otherwise>
 							</c:choose>
 							
-							<h5 class="m-b-5 p-t-15">배포 링크</h5>
+							<h5 class="m-b-5 p-t-15">블로그 링크</h5>
 								<c:choose>
-									<c:when test="${vo.demoUrl ne null }">
-										<p><a style="text-decoration: underline;" href="${vo.demoUrl }">${vo.demoUrl }</a></p>
+									<c:when test="${vo.blogUrl ne null }">
+										<p><a style="text-decoration: underline;" href="${vo.blogUrl }">${vo.blogUrl }</a></p>
 									</c:when>
 									<c:otherwise>
 										<p>-</p>
 									</c:otherwise>
 								</c:choose>
 							
-							<h5 class="m-b-5 p-t-15">PPT 링크</h5>
+							<h5 class="m-b-5 p-t-15">이메일 링크</h5>
 								<c:choose>
-									<c:when test="${vo.pptUrl ne null }">
-										<p><a style="text-decoration: underline;" href="${vo.pptUrl }">${vo.pptUrl }</a></p>
+									<c:when test="${vo.emailUrl ne null }">
+										<p><a style="text-decoration: underline;" href="${vo.emailUrl }">${vo.emailUrl }</a></p>
 									</c:when>
 									<c:otherwise>
 										<p>-</p>
@@ -110,18 +93,18 @@
 					<div class="media media-reply">
 						<div class="media-body">
 						
-							<h5 class="m-b-5 p-t-15">프로젝트 기록물</h5>
-							<c:choose>
-								<c:when test="${not empty vo.projectNoteVOs }">
-									<c:forEach items="${vo.projectNoteVOs }" var="pn">
-										<b class="m-b-5 p-t-15 text-warning">${pn.title }</b> <!--  -->
-										<p><a style="text-decoration: underline;" href="${pn.url }">${pn.url }</a></p>
+							<h5 class="m-b-5 p-t-15">기술</h5>
+ 							<c:choose>
+								<c:when test="${not empty vo.skillVOs }">
+									<c:forEach items="${vo.skillVOs }" var="sk">
+										<b class="m-b-5 p-t-15 text-warning">${sk.name }</b> <!--  -->
+										<p>${sk.description }</p>
 									</c:forEach>						
 								</c:when>
 								<c:otherwise>
 									<p>-</p>
 								</c:otherwise>
-							</c:choose>
+							</c:choose> 
 					
 						</div>
 					</div>
@@ -168,11 +151,11 @@
 				
 				<!-- TODO 시간이 된다면 form에 다 때려넣는 방식 대신 js 사용 방식으로 수정 -->
 				<div class="row m-0 justify-content-end">
-					<form action="/${adminUrl }/project/update" method="get" class="mr-2">
+					<form action="/${adminUrl }/about/update" method="get" class="mr-2">
 						<input type="hidden" name="id" value="${vo.id }">
 						<button class="btn btn-success m-b-30">수정</button>
 					</form>
-					<form action="/${adminUrl }/project/delete" method="post">
+					<form action="/${adminUrl }/about/delete" method="post">
 						<input type="hidden" name="id" value="${vo.id }">
 						<button class="btn btn-danger m-b-30">삭제</button>
 					</form>
