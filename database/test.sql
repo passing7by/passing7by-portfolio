@@ -104,3 +104,16 @@ WHERE
 	project_id = 21
 	AND about_id = NULL
 	AND id = 14;
+    
+-- INSERT INTO about
+-- 	(admin_id, name, title, github_url, blog_url, email_url, is_published) 
+-- VALUES
+-- 	(1, #{name}, #{title}, #{githubUrl}, #{blogUrl}, #{emailUrl}, #{isPublished});
+
+INSERT INTO about
+	(admin_id, name, title, github_url, blog_url, email_url, is_published) 
+VALUES
+	(1, '김태형', '안녕하시소', 'github_url', 'blog_url', 'email_url', false);
+    
+INSERT INTO skill (about_id, name, description)
+VALUES (1, '기술이름', '기술설명');

@@ -13,11 +13,11 @@ public interface ContentDAO<T extends ContentVO> {
 	List<T> selectListForAdmin(T contentVO) throws Exception;
 	T selectDetailForAdmin(T contentVO) throws Exception;
 	
-	int insertProject(T contentVO) throws Exception;
+	int insertContent(T contentVO) throws Exception;
 	int insertSection(SectionVO sectionVO) throws Exception;
 	int insertFile(FileVO fileVO) throws Exception;
 	
-	int updateProject(T contentVO) throws Exception;
+	int updateContent(T contentVO) throws Exception;
 	int updateSection(SectionVO sectionVO) throws Exception;
 	int updateFile(FileVO fileVO) throws Exception;
 	

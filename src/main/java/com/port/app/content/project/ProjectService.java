@@ -41,7 +41,7 @@ public class ProjectService implements ContentService<ProjectVO> {
 	
 	@Override
 	public int add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-		int result = projectDAO.insertProject(projectVO);
+		int result = projectDAO.insertContent(projectVO);
 		
 		// project 테이블에 데이터가 들어가지 않았다면 
 		// project_no, section 테이블에도 데이터가 들어갈 필요가 없기 때문에 바로 리턴
@@ -71,6 +71,9 @@ public class ProjectService implements ContentService<ProjectVO> {
 		
 		if (attaches != null && attaches.length > 0) {
 			for (MultipartFile a : attaches) {
+				// a에 실질적으로 파일이 들어있지 않다면 파일 저장 로직을 진행하지 않음
+				if (a.getSize() <= 0) continue;
+				
 				// 1. file을 HDD에 저장하고 saveName을 받아옴
 				FileVO fileVO = fileManager.saveFile(upload + project, a);
 				fileVO.setProjectId(projectVO.getId());
@@ -85,7 +88,7 @@ public class ProjectService implements ContentService<ProjectVO> {
 	
 	@Override
 	public int update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-		int result = projectDAO.updateProject(projectVO);
+		int result = projectDAO.updateContent(projectVO);
 		
 		// project 테이블에 데이터가 업데이트되지 않았다면 
 		// project_no, section 테이블에도 데이터가 업데이트되지 않도록 하기 위해 바로 리턴

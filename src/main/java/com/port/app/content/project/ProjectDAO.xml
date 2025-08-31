@@ -77,7 +77,7 @@
 	</select>
 	
 	
-	<insert id="insertProject" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertContent" parameterType="ProjectVO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO project
 			(admin_id, title, summary, team_size, key_features, tech_stack
 			,start_date, end_date, github_url, demo_url, ppt_url, is_published) 
@@ -102,7 +102,7 @@
 	</insert>
 	
 	
-	<update id="updateProject" parameterType="ProjectVO">
+	<update id="updateContent" parameterType="ProjectVO">
 		UPDATE project
 		SET
 			title = #{title}

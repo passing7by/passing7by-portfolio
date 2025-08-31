@@ -7,7 +7,7 @@ import com.port.app.content.ContentDAO;
 @Mapper
 public interface AboutDAO extends ContentDAO<AboutVO> {
 	
-//	int insertProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
+	int insertSkill(SkillVO skillVO) throws Exception;
 //	int updateProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
 	
 }

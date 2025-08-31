@@ -67,26 +67,26 @@ public class AboutAdminController {
 		
 		return url;
 	}
-//	
-//	@GetMapping("add")
-//	public String add(Model model, HttpServletRequest req) throws Exception {
-//		String uri = req.getRequestURI().toString();
-//		System.err.println(uri);
-//		
-//		model.addAttribute("uri", uri);
-//		
-//		return "admin/project/add";
-//	}
-//	
-//	@PostMapping("add") // TODO session의 adminId 사용
-//	public String add(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-//		log.warn("{}", projectVO);
-//		log.warn("{}", attaches);
-//		
-//		int result = projectService.add(projectVO, attaches);
-//		
-//		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
-//	}
+	
+	@GetMapping("add")
+	public String add(Model model, HttpServletRequest req) throws Exception {
+		String uri = req.getRequestURI().toString();
+		log.warn(uri);
+		
+		model.addAttribute("uri", uri);
+		
+		return "admin/about/add";
+	}
+	
+	@PostMapping("add") // TODO session의 adminId 사용
+	public String add(AboutVO aboutVO, MultipartFile[] attaches) throws Exception {
+		log.warn("{}", aboutVO);
+		log.warn("{}", attaches);
+		
+		int result = aboutService.add(aboutVO, attaches);
+		
+		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
+	}
 //	
 //	@GetMapping("update") // TODO session의 adminId 사용
 //	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
