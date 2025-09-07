@@ -117,7 +117,7 @@ public class ProjectAdminController {
 	public String delete(ProjectVO projectVO) throws Exception {
 		int result = projectService.delete(projectVO);
 		
-		return "redirect:./list";
+		return "redirect:./list?isDeleted=0";
 	}
 	
 	
@@ -131,6 +131,5 @@ public class ProjectAdminController {
 		
 		return result;
 	}
-	
 	
 }

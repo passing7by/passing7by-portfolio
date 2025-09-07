@@ -124,7 +124,7 @@
 												class="text-danger">*</span></label>
 											<div class="col-lg-7 content-input-div">
 												<input class="form-control content-input" type="text"
-													name="description[${i.index }].description" value="${sk.description }">
+													name="skillVOs[${i.index }].description" value="${sk.description }">
 											</div>
 										</div>
 										<div class="row m-0 justify-content-end">

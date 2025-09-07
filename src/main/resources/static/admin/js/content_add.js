@@ -4,6 +4,7 @@
 
 // 폼 추가
 
+// 폼 생성 함수
 function createNewRow() {
       const newRow = document.createElement('div');
 			
@@ -80,13 +81,27 @@ function createNewRow() {
       return newRow;
 }
 
+// 모든 삭제 버튼에 삭제 이벤트 달기
+function addDeleteFormEvent() {
+	const dels = document.querySelectorAll('.del');
+	console.log(dels);
+
+	dels.forEach((d) => {
+	  d.addEventListener('click', function () {
+	    console.log('click');
+	    d.parentElement.parentElement.remove();
+	  });
+	});
+}
+
+// 문서 로딩 직후 모든 삭제 버튼에 삭제 이벤트를 닮
+addDeleteFormEvent();
+
 const addBtns = document.querySelectorAll('.add-btn');
 const projectNoteBox = document.querySelector('#project-note-box');
 const sectionBox = document.querySelector('#section-box');
 const fileBox = document.querySelector('#file-box');
 const skillBox = document.querySelector('#skill-box');
-
-let dels;
 
 let projectNoteCnt = projectNoteBox != null ?  projectNoteBox.childElementCount : 0;
 let sectionCnt = sectionBox.childElementCount;
@@ -219,15 +234,7 @@ addBtns.forEach(a => {
 		// 폼 삭제
 		
 		// 항목이 추가될 때마다 각 항목에 있는 삭제 버튼들을 불러와서 삭제 버튼 목록을 갱신하고 각 삭제 버튼에 이벤트 달기
-		dels = document.querySelectorAll('.del');
-		console.log(dels);
-		
-		dels.forEach((d) => {
-		  d.addEventListener('click', function () {
-		    console.log('click');
-		    d.parentElement.parentElement.remove();
-		  });
-		});
+		addDeleteFormEvent();
 		
   });
 });
