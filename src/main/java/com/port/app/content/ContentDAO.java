@@ -22,7 +22,7 @@ public interface ContentDAO<T extends ContentVO> {
 	int updateFile(FileVO fileVO) throws Exception;
 	
 	int delete(T contentVO) throws Exception;
-	
+	int deleteSection(SectionVO sectionVO) throws Exception;
 	
 	// ------------ File
 	

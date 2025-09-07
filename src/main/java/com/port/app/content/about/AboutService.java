@@ -12,6 +12,7 @@ import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
 import com.port.app.content.ContentService;
+import com.port.app.content.project.ProjectNoteVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,9 +92,78 @@ public class AboutService implements ContentService<AboutVO> {
 	}
 
 	@Override
-	public int update(AboutVO contentVO, MultipartFile[] attaches) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(AboutVO aboutVO, MultipartFile[] attaches) throws Exception {
+		int result = aboutDAO.updateContent(aboutVO);
+		
+		// about 테이블에 데이터가 업데이트되지 않았다면 
+		// 관련된 다른 테이블에도 데이터가 업데이트되지 않도록 하기 위해 바로 리턴
+		if(result == 0) return result;
+
+		// 존재하는 데이터에 있던 게 들어온 데이터에는 없다면 delete
+		AboutVO existingAbout = aboutDAO.selectDetailForAdmin(aboutVO);
+
+		for (SkillVO sk1 : existingAbout.getSkillVOs()) {
+			boolean isDeleted = true;
+			
+			for (SkillVO sk2 : aboutVO.getSkillVOs()) {
+				if (sk1.getId() == sk2.getId()) isDeleted = false;
+			}
+			
+			if (isDeleted) result = aboutDAO.deleteSkill(sk1);
+		}
+		
+		for (SectionVO s1 : existingAbout.getSectionVOs()) {
+			boolean isDeleted = true;
+			
+			for (SectionVO s2 : aboutVO.getSectionVOs()) {
+				if (s1.getId() == s2.getId()) isDeleted = false;
+			}
+			
+			if (isDeleted) result = aboutDAO.deleteSection(s1);
+		}
+		
+		// 관련된 다른 테이블의 데이터 update
+		
+		List<SkillVO> skList = aboutVO.getSkillVOs();
+		if (skList != null && result > 0) {
+			for (SkillVO sk : skList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
+				if(sk.getName() == null) continue;
+				
+				sk.setAboutId(aboutVO.getId());
+				
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(sk.getId() != null) result = aboutDAO.updateSkill(sk);
+				else result = aboutDAO.insertSkill(sk);
+			}
+		}
+		
+		List<SectionVO> sList = aboutVO.getSectionVOs();
+		if (sList != null && result > 0) {
+			for (SectionVO s : sList) {
+				// 폼에 not null 값을 입력하지 않았다면 sqlException이 발생하므로 db에 update하지 않음
+				if (s.getTitle() == null) continue;
+				
+				s.setAboutId(aboutVO.getId());
+
+				// id가 있으면(기존에 있던 데이터면) update / 없으면 insert
+				if(s.getId() != null) result = aboutDAO.updateSection(s);
+				else result = aboutDAO.insertSection(s);
+			}
+		}
+		
+		if (attaches != null && attaches.length > 0) {
+			for (MultipartFile a : attaches) {
+				// 1. file을 HDD에 저장하고 saveName을 받아옴
+				FileVO fileVO = fileManager.saveFile(upload + about, a);
+				fileVO.setAboutId(aboutVO.getId());
+				
+				// 2. DB에 데이터 저장
+				result = aboutDAO.insertFile(fileVO);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override

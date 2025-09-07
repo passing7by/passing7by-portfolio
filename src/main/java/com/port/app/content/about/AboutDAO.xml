@@ -99,31 +99,26 @@
 	</insert>
 	
 	
-<!--	<update id="updateProject" parameterType="ProjectVO">
-		UPDATE project
+	<update id="updateContent" parameterType="AboutVO">
+		UPDATE about
 		SET
-			title = #{title}
-			,summary = #{summary}
-			,team_size = #{teamSize}
-			,key_features = #{keyFeatures}
-			,tech_stack = #{techStack}
-			,start_date = #{startDate}
-			,end_date = #{endDate}
+			name = #{name}
+			,title = #{title}
 			,github_url = #{githubUrl}
-			,demo_url = #{demoUrl}
-			,ppt_url = #{pptUrl}
+			,blog_url = #{blogUrl}
+			,email_url = #{emailUrl}
 			,is_published = #{isPublished}
 		WHERE
 			id = #{id}
 			AND admin_id = 1
 	</update>
 	
-	<update id="updateProjectNote" parameterType="ProjectNoteVO">
-		UPDATE project_note
-		SET title = #{title}, url = #{url}
+	<update id="updateSkill" parameterType="SkillVO">
+		UPDATE skill
+		SET name = #{name} ,description = #{description}
 		WHERE
-			project_id = #{projectId}
-			AND id = #{id}
+			id = #{id}
+			AND about_id = #{aboutId};
 	</update>
 	
 	<update id="updateSection" parameterType="SectionVO">
@@ -152,7 +147,17 @@
 	</update>
 	
 	
-	<delete id="delete" parameterType="ProjectVO">
+	<delete id="deleteSkill" parameterType="SkillVO">
+		DELETE FROM skill
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteSection" parameterType="SectionVO">
+		DELETE FROM section
+		WHERE id = #{id}
+	</delete>
+
+<!--	<delete id="delete" parameterType="ProjectVO">
 		UPDATE project
 		SET
 			is_published = 0

@@ -117,3 +117,47 @@ VALUES
     
 INSERT INTO skill (about_id, name, description)
 VALUES (1, '기술이름', '기술설명');
+
+-- UPDATE about
+-- SET
+-- 	name = #{name}
+--     ,title = #{title}
+-- 	,github_url = #{githubUrl}
+-- 	,blog_url = #{blog_url}
+-- 	,email_url = #{email_url}
+-- 	,is_published = #{isPublished}
+-- WHERE
+-- 	id = #{id}
+-- 	AND admin_id = 1
+
+UPDATE about
+SET
+	name = '김지남'
+    ,title = 'update test'
+	,github_url = 'git url'
+	,blog_url = 'blog url'
+	,email_url = 'email url'
+	,is_published = 0
+WHERE
+	id = 3
+	AND admin_id = 1;
+    
+
+-- UPDATE skill
+-- SET
+-- 	name = #{name}
+--     ,description = #{description}
+-- WHERE
+-- 	id = #{id}
+-- 	AND about_id = 1;
+
+-- UPDATE skill
+-- SET
+-- 	name = #{name}
+--     ,description = #{description}
+-- WHERE
+-- 	id = #{id}
+-- 	AND about_id = 1;
+    
+DELETE FROM skill
+WHERE id = #{id}

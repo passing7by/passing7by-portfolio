@@ -8,6 +8,7 @@ import com.port.app.content.ContentDAO;
 public interface AboutDAO extends ContentDAO<AboutVO> {
 	
 	int insertSkill(SkillVO skillVO) throws Exception;
-//	int updateProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
+	int updateSkill(SkillVO skillVO) throws Exception;
+	int deleteSkill(SkillVO skillVO) throws Exception;
 	
 }

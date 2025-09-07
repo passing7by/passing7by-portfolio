@@ -87,32 +87,32 @@ public class AboutAdminController {
 		
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 등록한 글의 detail로 경로 변경하기
 	}
-//	
-//	@GetMapping("update") // TODO session의 adminId 사용
-//	public String update(ProjectVO projectVO, Model model, HttpServletRequest req) throws Exception {
-//		System.err.println(projectVO);
-//		
-//		// 요청 uri에 따라 form의 action 경로가 update인지 add인지 나눔
-//		String uri = req.getRequestURI().toString();
-//		model.addAttribute("uri", uri);
-//		
-//		// 요청시 받아온 id로 detail 조회
-//		projectVO = projectService.detail(projectVO);
-//		model.addAttribute("vo", projectVO);
-//		
-//		return "admin/project/add";
-//	}
-//	
-//	@PostMapping("update") // TODO session의 adminId 사용
-//	public String update(ProjectVO projectVO, MultipartFile[] attaches) throws Exception {
-//		log.warn("{}", projectVO);
-//		log.warn("{}", attaches);
-//		
-//		int result = projectService.update(projectVO, attaches);
-//		
-//		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
-//	}
-//	
+	
+	@GetMapping("update") // TODO session의 adminId 사용
+	public String update(AboutVO aboutVO, Model model, HttpServletRequest req) throws Exception {
+		System.err.println(aboutVO);
+		
+		// 요청 uri에 따라 form의 action 경로가 update인지 add인지 나눔
+		String uri = req.getRequestURI().toString();
+		model.addAttribute("uri", uri);
+		
+		// 요청시 받아온 id로 detail 조회
+		aboutVO = aboutService.detail(aboutVO);
+		model.addAttribute("vo", aboutVO);
+		
+		return "admin/about/add";
+	}
+	
+	@PostMapping("update") // TODO session의 adminId 사용
+	public String update(AboutVO aboutVO, MultipartFile[] attaches) throws Exception {
+		log.warn("{}", aboutVO);
+		log.warn("{}", attaches);
+		
+		int result = aboutService.update(aboutVO, attaches);
+		
+		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
+	}
+	
 //	@PostMapping("delete") // TODO session의 adminId 사용
 //	public String delete(ProjectVO projectVO) throws Exception {
 //		int result = projectService.delete(projectVO);
