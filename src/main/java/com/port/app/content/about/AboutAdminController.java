@@ -120,17 +120,16 @@ public class AboutAdminController {
 		return "redirect:./list?isDeleted=0";
 	}
 	
-//	
-//	// -------------------- File
-//	@ResponseBody
-//	@PostMapping("deleteFile")
-//	public Integer deleteFile(FileVO fileVO) throws Exception {
-//		log.warn("{}", fileVO);
-//		
-//		int result = projectService.deleteFile(fileVO);
-//		
-//		return result;
-//	}
 	
+	// -------------------- File
+	@ResponseBody
+	@PostMapping("deleteFile")
+	public Integer deleteFile(FileVO fileVO) throws Exception {
+		log.warn("{}", fileVO);
+		
+		int result = aboutService.deleteFile(fileVO);
+		
+		return result;
+	}
 	
 }

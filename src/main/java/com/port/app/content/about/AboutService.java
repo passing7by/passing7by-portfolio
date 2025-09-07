@@ -173,8 +173,16 @@ public class AboutService implements ContentService<AboutVO> {
 
 	@Override
 	public int deleteFile(FileVO fileVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		// 1. 파일 정보 조회
+		fileVO = aboutDAO.selectFile(fileVO);
+		
+		// 1. HHD에서 삭제
+		fileManager.deleteFile(upload  + about, fileVO);
+		
+		// 2. DB에서 삭제
+		int result = aboutDAO.deleteFile(fileVO);
+		
+		return result;
 	}
 	
 	/*

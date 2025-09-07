@@ -167,8 +167,7 @@
 			AND admin_id = 1;
 	</delete>
 	
-	
-<!--	File
+	<!-- File -->
 	
 	<select id="selectFile" parameterType="FileVO">
 		SELECT id, saved_name, extension
@@ -179,5 +178,5 @@
 	<delete id="deleteFile" parameterType="FileVO">
 		DELETE FROM image
 		WHERE id = #{id}
-	</delete> -->
+	</delete>
 </mapper>
