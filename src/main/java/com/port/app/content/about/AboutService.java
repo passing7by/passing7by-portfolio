@@ -167,9 +167,8 @@ public class AboutService implements ContentService<AboutVO> {
 	}
 
 	@Override
-	public int delete(AboutVO contentVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(AboutVO aboutVO) throws Exception {
+		return aboutDAO.delete(aboutVO);
 	}
 
 	@Override

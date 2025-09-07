@@ -113,13 +113,13 @@ public class AboutAdminController {
 		return "redirect:./list?isDeleted=0"; // TODO 추후 방금 수정한 글의 detail로 경로 변경하기
 	}
 	
-//	@PostMapping("delete") // TODO session의 adminId 사용
-//	public String delete(ProjectVO projectVO) throws Exception {
-//		int result = projectService.delete(projectVO);
-//		
-//		return "redirect:./list";
-//	}
-//	
+	@PostMapping("delete") // TODO session의 adminId 사용
+	public String delete(AboutVO aboutVO) throws Exception {
+		int result = aboutService.delete(aboutVO);
+		
+		return "redirect:./list?isDeleted=0";
+	}
+	
 //	
 //	// -------------------- File
 //	@ResponseBody

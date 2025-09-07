@@ -157,8 +157,8 @@
 		WHERE id = #{id}
 	</delete>
 
-<!--	<delete id="delete" parameterType="ProjectVO">
-		UPDATE project
+	<delete id="delete" parameterType="AboutVO">
+		UPDATE about
 		SET
 			is_published = 0
 			,is_deleted = 1
@@ -168,7 +168,7 @@
 	</delete>
 	
 	
-	File
+<!--	File
 	
 	<select id="selectFile" parameterType="FileVO">
 		SELECT id, saved_name, extension
