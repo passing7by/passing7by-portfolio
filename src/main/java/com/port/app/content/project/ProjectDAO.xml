@@ -166,6 +166,16 @@
 	</delete>
 	
 	
+	<delete id="deleteProjectNote" parameterType="ProjectNoteVO">
+		DELETE FROM project_note
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteSection" parameterType="SectionVO">
+		DELETE FROM section
+		WHERE id = #{id}
+	</delete>
+	
 	<!-- File -->
 	
 	<select id="selectFile" parameterType="FileVO">

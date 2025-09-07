@@ -12,6 +12,8 @@ import com.port.app.common.FileManager;
 import com.port.app.common.FileVO;
 import com.port.app.common.SectionVO;
 import com.port.app.content.ContentService;
+import com.port.app.content.about.AboutVO;
+import com.port.app.content.about.SkillVO;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -93,6 +95,31 @@ public class ProjectService implements ContentService<ProjectVO> {
 		// project 테이블에 데이터가 업데이트되지 않았다면 
 		// project_no, section 테이블에도 데이터가 업데이트되지 않도록 하기 위해 바로 리턴
 		if(result == 0) return result;
+		
+		// 존재하는 데이터에 있던 게 들어온 데이터에는 없다면 delete
+		ProjectVO existingProject = projectDAO.selectDetailForAdmin(projectVO);
+
+		for (ProjectNoteVO pn1 : existingProject.getProjectNoteVOs()) {
+			boolean isDeleted = true;
+			
+			for (ProjectNoteVO pn2 : projectVO.getProjectNoteVOs()) {
+				if (pn1.getId() == pn2.getId()) isDeleted = false;
+			}
+			
+			if (isDeleted) result = projectDAO.deleteProjectNote(pn1);
+		}
+		
+		for (SectionVO s1 : existingProject.getSectionVOs()) {
+			boolean isDeleted = true;
+			
+			for (SectionVO s2 : projectVO.getSectionVOs()) {
+				if (s1.getId() == s2.getId()) isDeleted = false;
+			}
+			
+			if (isDeleted) result = projectDAO.deleteSection(s1);
+		}
+		
+		// 관련된 다른 테이블의 데이터 update
 		
 		List<ProjectNoteVO> pnList = projectVO.getProjectNoteVOs();
 		if (pnList != null && result > 0) {

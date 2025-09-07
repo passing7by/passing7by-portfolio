@@ -14,7 +14,7 @@
 	<!-- Theme Style -->
 	<c:import url="/WEB-INF/views/admin/common/head.jsp"/>
 	
-	<script defer type="text/javascript" src="/admin/js/project_add.js"></script>
+	<script defer type="text/javascript" src="/admin/js/content_add.js"></script>
 </head>
 
 <body>

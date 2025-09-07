@@ -9,5 +9,6 @@ public interface ProjectDAO extends ContentDAO<ProjectVO> {
 	
 	int insertProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
 	int updateProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
+	int deleteProjectNote(ProjectNoteVO projectNoteVO) throws Exception;
 	
 }
