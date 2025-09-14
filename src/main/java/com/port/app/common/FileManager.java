@@ -54,7 +54,7 @@ public class FileManager {
 	 * @return extension
 	 * @throws Exception
 	 */
-	public String getExtension(String oriFileName) throws Exception {
+	private String getExtension(String oriFileName) throws Exception {
 		
 		return oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
 	}
@@ -65,13 +65,17 @@ public class FileManager {
 	 * @return extension
 	 * @throws Exception
 	 */
-	public String getOriName(String oriFileName) throws Exception {
+	private String getOriName(String oriFileName) throws Exception {
 		
 		return oriFileName.substring(0, oriFileName.lastIndexOf("."));
 	}
 	
 	/**
-	 * 
+	 * 지정된 경로에 있는 파일을 삭제하고 파일 삭제 여부를 반환
+	 * @param filePath
+	 * @param fileVO
+	 * @return file.delete()
+	 * @throws Exception
 	 */
 	public boolean deleteFile(String filePath, FileVO fileVO) throws Exception {
 		File file = new File(filePath, fileVO.getSavedName() + "." + fileVO.getExtension());
